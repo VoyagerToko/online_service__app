@@ -1,0 +1,5 @@
+{
+  "name": "Servify - Premium Service Marketplace",
+  "description": "A modern, transparent service marketplace for home maintenance, repairs, and professional services with real-time tracking.",
+  "requestFramePermissions": ["geolocation"]
+}
