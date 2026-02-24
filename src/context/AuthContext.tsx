@@ -1,44 +1,72 @@
+/**
+ * AuthContext — wraps the real Servify backend API.
+ *
+ * Replaces the previous mock-based implementation.
+ * Login stores JWT tokens in localStorage; the `client.ts` apiFetch()
+ * automatically attaches the Bearer token to every request.
+ */
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, UserRole } from '../types';
+import { authApi, type UserProfile } from '../api/client';
+import { UserRole } from '../types';
 
 interface AuthContextType {
-  user: User | null;
-  login: (role: UserRole) => void;
+  user: AppUser | null;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+}
+
+/** Adapts the backend UserProfile to the frontend User shape. */
+export interface AppUser {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  avatar_url: string | null;
+  wallet_balance: number;
+  is_email_verified: boolean;
+}
+
+function profileToAppUser(p: UserProfile): AppUser {
+  return {
+    id: p.id,
+    name: p.name,
+    email: p.email,
+    role: p.role as UserRole,
+    avatar_url: p.avatar_url,
+    wallet_balance: p.wallet_balance,
+    is_email_verified: p.is_email_verified,
+  };
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AppUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // On mount, restore user from localStorage (token already stored by client.ts)
   useEffect(() => {
-    // Simulate checking local storage
-    const savedUser = localStorage.getItem('servify_user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    const raw = localStorage.getItem('servify_user');
+    if (raw) {
+      try {
+        const parsed: UserProfile = JSON.parse(raw);
+        setUser(profileToAppUser(parsed));
+      } catch {
+        localStorage.removeItem('servify_user');
+      }
     }
     setIsLoading(false);
   }, []);
 
-  const login = (role: UserRole) => {
-    const mockUser: User = {
-      id: 'u1',
-      name: role === 'user' ? 'John Doe' : role === 'professional' ? 'Rahul Sharma' : 'Admin User',
-      email: `${role}@example.com`,
-      role,
-      walletBalance: 1250,
-      avatar: `https://picsum.photos/seed/${role}/200/200`,
-    };
-    setUser(mockUser);
-    localStorage.setItem('servify_user', JSON.stringify(mockUser));
+  const login = async (email: string, password: string): Promise<void> => {
+    const res = await authApi.login(email, password);
+    setUser(profileToAppUser(res.user));
   };
 
   const logout = () => {
+    authApi.logout();
     setUser(null);
-    localStorage.removeItem('servify_user');
   };
 
   return (
@@ -49,9 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');
+  return ctx;
 };
