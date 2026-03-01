@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, Star, ShieldCheck, ArrowRight } from 'lucide-react';
-import { SERVICES, CATEGORIES } from '../data/mockData';
+import { servicesApi, type Service, type Category } from '../api/client';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Link } from 'react-router-dom';
@@ -8,10 +8,23 @@ import { Link } from 'react-router-dom';
 export const ServicesPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [services, setServices] = useState<Service[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredServices = SERVICES.filter(s => {
+  useEffect(() => {
+    Promise.all([
+      servicesApi.listCategories(),
+      servicesApi.listServices(),
+    ]).then(([cats, svcs]) => {
+      setCategories(cats);
+      setServices(svcs);
+    }).catch(console.error).finally(() => setIsLoading(false));
+  }, []);
+
+  const filteredServices = services.filter(s => {
     const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || s.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' || s.category_id === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -51,7 +64,7 @@ export const ServicesPage: React.FC = () => {
         >
           All Services
         </button>
-        {CATEGORIES.map(cat => (
+        {categories.map(cat => (
           <button
             key={cat.id}
             onClick={() => setSelectedCategory(cat.id)}
@@ -66,6 +79,11 @@ export const ServicesPage: React.FC = () => {
         ))}
       </div>
 
+      {isLoading ? (
+        <div className="text-center py-20 text-slate-400">Loading services...</div>
+      ) : filteredServices.length === 0 ? (
+        <div className="text-center py-20 text-slate-400">No services found.</div>
+      ) : (
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredServices.map((service) => (
           <Card key={service.id} className="p-0 overflow-hidden group">
@@ -77,7 +95,7 @@ export const ServicesPage: React.FC = () => {
                 referrerPolicy="no-referrer"
               />
               <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-xs font-bold flex items-center gap-1">
-                <Star size={14} className="text-yellow-500" fill="currentColor" /> {service.rating}
+                <Star size={14} className="text-yellow-500" fill="currentColor" /> {service.avg_rating.toFixed(1)}
               </div>
             </div>
             <div className="p-6">
@@ -96,7 +114,7 @@ export const ServicesPage: React.FC = () => {
               <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
                 <div>
                   <p className="text-xs text-slate-500 font-bold uppercase">Starts from</p>
-                  <p className="text-2xl font-bold dark:text-white">₹{service.basePrice}</p>
+                  <p className="text-2xl font-bold dark:text-white">₹{service.base_price}</p>
                 </div>
                 <Link to={`/book/${service.id}`}>
                   <Button className="rounded-xl">Book Now <ArrowRight size={18} className="ml-2" /></Button>
@@ -106,6 +124,7 @@ export const ServicesPage: React.FC = () => {
           </Card>
         ))}
       </div>
+      )}
 
       {filteredServices.length === 0 && (
         <div className="text-center py-20">

@@ -35,7 +35,12 @@ class Professional(Base, TimestampMixin):
     bookings = relationship("Booking", foreign_keys="Booking.pro_id", back_populates="professional", lazy="select")
     availability_slots = relationship("AvailabilitySlot", back_populates="professional", lazy="select")
     kyc_documents = relationship("KYCDocument", back_populates="professional", lazy="select")
-    reviews_received = relationship("Review", foreign_keys="Review.reviewee_id", back_populates="reviewee", lazy="select")
+    reviews_received = relationship(
+        "Review",
+        primaryjoin="Review.reviewee_id == foreign(Professional.user_id)",
+        viewonly=True,
+        lazy="select",
+    )
 
     def __repr__(self):
         return f"<Professional {self.specialty} rating={self.avg_rating}>"

@@ -45,10 +45,19 @@ function AppContent() {
           />
           
           <Route 
-            path="/book/:serviceId" 
+            path="/book/:proId" 
             element={
               <ProtectedRoute roles={['user']}>
                 <BookingFlow />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/pro-dashboard" 
+            element={
+              <ProtectedRoute roles={['professional']}>
+                <ProfessionalDashboard />
               </ProtectedRoute>
             } 
           />

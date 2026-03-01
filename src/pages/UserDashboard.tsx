@@ -1,23 +1,21 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Clock, MapPin, Star, ChevronRight, Wallet, History, Settings, Bell, ShieldCheck } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Clock, MapPin, Star, ChevronRight, Wallet, History, Settings, Bell, ShieldCheck, FileText, Calendar, Plus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { bookingsApi, type Booking } from '../api/client';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { useNavigate } from 'react-router-dom';
 
 export const UserDashboard: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [activeBookings, setActiveBookings] = useState<Booking[]>([]);
 
-  const activeBookings = [
-    {
-      id: 'B1024',
-      service: 'AC Deep Cleaning',
-      status: 'In Progress',
-      pro: 'Rahul Sharma',
-      time: 'Today, 2:00 PM',
-      step: 2,
-    }
-  ];
+  useEffect(() => {
+    bookingsApi.list()
+      .then(bookings => setActiveBookings(bookings.filter(b => !['completed', 'cancelled'].includes(b.status))))
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="pt-28 pb-20 px-6 max-w-7xl mx-auto">
@@ -26,7 +24,13 @@ export const UserDashboard: React.FC = () => {
         <div className="lg:col-span-3 space-y-6">
           <Card className="p-8 text-center bg-brand-600 border-none shadow-brand-500/20">
             <div className="relative inline-block mb-4">
-              <img src={user?.avatar} alt={user?.name} className="w-24 h-24 rounded-full border-4 border-white/20 mx-auto" />
+              {user?.avatar_url ? (
+                <img src={user.avatar_url} alt={user.name} className="w-24 h-24 rounded-full border-4 border-white/20 mx-auto" />
+              ) : (
+                <div className="w-24 h-24 rounded-full border-4 border-white/20 mx-auto bg-white/20 flex items-center justify-center text-white text-3xl font-bold">
+                  {user?.name?.charAt(0) ?? '?'}
+                </div>
+              )}
               <div className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-4 border-brand-600 rounded-full"></div>
             </div>
             <h3 className="text-xl font-bold text-white mb-1">{user?.name}</h3>
@@ -34,7 +38,7 @@ export const UserDashboard: React.FC = () => {
             <div className="bg-white/10 rounded-2xl p-4 flex justify-between items-center">
               <div className="text-left">
                 <p className="text-xs text-white/60 uppercase font-bold tracking-wider">Wallet</p>
-                <p className="text-lg font-bold text-white">₹{user?.walletBalance}</p>
+                <p className="text-lg font-bold text-white">₹{user?.wallet_balance ?? 0}</p>
               </div>
               <Button size="sm" className="bg-white text-brand-600 hover:bg-white/90 shadow-none px-3">Add</Button>
             </div>
@@ -68,13 +72,20 @@ export const UserDashboard: React.FC = () => {
           <div className="flex justify-between items-end">
             <div>
               <h1 className="text-3xl font-display font-bold dark:text-white mb-2">Welcome back, {user?.name.split(' ')[0]}!</h1>
-              <p className="text-slate-500 dark:text-slate-400">You have 1 active service today.</p>
+              <p className="text-slate-500 dark:text-slate-400">You have {activeBookings.length} active service{activeBookings.length !== 1 ? 's' : ''} today.</p>
             </div>
-            <Button variant="outline" className="hidden md:flex">Book New Service</Button>
+            <Button variant="outline" className="hidden md:flex items-center gap-2" onClick={() => navigate('/professionals')}>
+              <Plus size={16} /> Book New Service
+            </Button>
           </div>
 
           {/* Active Booking Tracking */}
-          {activeBookings.map((booking) => (
+          {activeBookings.length === 0 ? (
+            <Card className="p-10 text-center text-slate-400">
+              <p className="text-lg font-semibold mb-2 dark:text-slate-300">No active bookings</p>
+              <p className="text-sm">Book a service to get started!</p>
+            </Card>
+          ) : activeBookings.map((booking) => (
             <Card key={booking.id} className="p-0 overflow-hidden">
               <div className="bg-slate-50 dark:bg-slate-800/50 p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                 <div className="flex items-center gap-4">
@@ -82,15 +93,15 @@ export const UserDashboard: React.FC = () => {
                     <ShieldCheck size={24} />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Booking ID: {booking.id}</p>
-                    <h4 className="text-xl font-bold dark:text-white">{booking.service}</h4>
+                    <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">Booking #{booking.id.slice(0, 8)}</p>
+                    <h4 className="text-xl font-bold dark:text-white">{booking.description ? booking.description.slice(0, 40) + (booking.description.length > 40 ? '...' : '') : 'Service Booking'}</h4>
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase">
                     {booking.status}
                   </span>
-                  <p className="text-sm text-slate-500 mt-1">{booking.time}</p>
+                  <p className="text-sm text-slate-500 mt-1">{booking.scheduled_date} &bull; {booking.time_slot}</p>
                 </div>
               </div>
 
@@ -126,11 +137,8 @@ export const UserDashboard: React.FC = () => {
                   <div className="flex items-center gap-4">
                     <img src="https://picsum.photos/seed/rahul/200/200" alt="Pro" className="w-14 h-14 rounded-2xl object-cover" />
                     <div>
-                      <p className="text-xs text-slate-500 font-bold uppercase">Your Professional</p>
-                      <h5 className="font-bold dark:text-white text-lg">{booking.pro}</h5>
-                      <div className="flex items-center gap-1 text-yellow-500 text-sm">
-                        <Star size={14} fill="currentColor" /> 4.9 (450 jobs)
-                      </div>
+                      <p className="text-xs text-slate-500 font-bold uppercase">Assigned Professional</p>
+                      <h5 className="font-bold dark:text-white text-lg">{booking.pro_id ? `Pro #${booking.pro_id.slice(0,8)}` : 'Pending Assignment'}</h5>
                     </div>
                   </div>
                   <div className="flex gap-3 w-full md:w-auto">
@@ -144,7 +152,16 @@ export const UserDashboard: React.FC = () => {
 
           {/* Quick Actions */}
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-6 flex items-center gap-4 bg-emerald-50 dark:bg-emerald-900/10 border-emerald-100 dark:border-emerald-900/30">
+            <Card onClick={() => navigate('/professionals')} className="p-6 flex items-center gap-4 bg-brand-50 dark:bg-brand-900/10 border-brand-100 dark:border-brand-900/30 cursor-pointer hover:shadow-md transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-brand-500 text-white flex items-center justify-center">
+                <Plus size={24} />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-brand-600 dark:text-brand-400">Book a Professional</p>
+                <p className="text-xs text-slate-500">Find verified experts near you</p>
+              </div>
+            </Card>
+            <Card className="p-6 flex items-center gap-4 bg-blue-50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-900/30">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center">
                 <Wallet size={24} />
               </div>

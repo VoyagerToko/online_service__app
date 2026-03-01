@@ -47,7 +47,7 @@ async def get_user(user_id: str, db: DbSession, _admin: RequireAdmin):
 
 @professionals_router.get("/", response_model=list[ProfessionalResponse])
 async def list_professionals(db: DbSession, specialty: str | None = None, skip: int = 0, limit: int = 50):
-    q = select(Professional).where(Professional.is_suspended == False, Professional.is_kyc_verified == True)
+    q = select(Professional).where(Professional.is_suspended == False)
     if specialty:
         q = q.where(Professional.specialty.ilike(f"%{specialty}%"))
     result = await db.execute(q.order_by(Professional.avg_rating.desc()).offset(skip).limit(limit))

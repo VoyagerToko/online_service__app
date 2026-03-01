@@ -40,7 +40,16 @@ async function apiFetch<T>(
 
     if (!res.ok) {
         const body = await res.json().catch(() => ({ detail: res.statusText }));
-        throw new Error(body.detail ?? 'An unexpected error occurred');
+        // FastAPI 422 validation errors return detail as an array of objects
+        let message: string;
+        if (Array.isArray(body.detail)) {
+            message = body.detail.map((d: { msg: string; loc?: string[] }) =>
+                d.loc ? `${d.loc.slice(-1)[0]}: ${d.msg}` : d.msg
+            ).join(', ');
+        } else {
+            message = body.detail ?? 'An unexpected error occurred';
+        }
+        throw new Error(message);
     }
 
     if (res.status === 204) return undefined as T;
@@ -74,6 +83,7 @@ export const authApi = {
         password: string;
         phone?: string;
         role?: string;
+        specialty?: string;
     }) => apiFetch<UserProfile>('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
 
     login: async (email: string, password: string): Promise<TokenResponse> => {
@@ -133,13 +143,14 @@ export const servicesApi = {
 
 export interface Booking {
     id: string;
-    service_id: string;
+    service_id: string | null;
     user_id: string;
     pro_id: string | null;
     status: string;
     scheduled_date: string;
     time_slot: string;
     address: string;
+    description: string | null;
     base_price: number;
     addons: { name: string; price: number }[] | null;
     platform_fee: number;
@@ -165,11 +176,22 @@ export const bookingsApi = {
             body: JSON.stringify({ service_id, addons }),
         }),
 
-    create: (data: Omit<Booking, 'id' | 'user_id' | 'pro_id' | 'status' | 'base_price' | 'platform_fee' | 'tax' | 'total_price'>) =>
-        apiFetch<Booking>('/bookings/', { method: 'POST', body: JSON.stringify(data) }),
+    create: (data: {
+        service_id?: string;
+        pro_id?: string;
+        description?: string;
+        scheduled_date: string;
+        time_slot: string;
+        address: string;
+        notes?: string;
+    }) => apiFetch<Booking>('/bookings/', { method: 'POST', body: JSON.stringify(data) }),
 
     list: () => apiFetch<Booking[]>('/bookings/'),
     get: (id: string) => apiFetch<Booking>(`/bookings/${id}`),
+    accept: (id: string) => apiFetch<Booking>(`/bookings/${id}/accept`, { method: 'PATCH' }),
+    reject: (id: string) => apiFetch<Booking>(`/bookings/${id}/reject`, { method: 'PATCH' }),
+    markInProgress: (id: string) => apiFetch<Booking>(`/bookings/${id}/start`, { method: 'PATCH' }),
+    markComplete: (id: string) => apiFetch<Booking>(`/bookings/${id}/complete`, { method: 'PATCH' }),
     cancel: (id: string, reason: string) =>
         apiFetch<Booking>(`/bookings/${id}/cancel`, { method: 'PATCH', body: JSON.stringify({ reason }) }),
     reschedule: (id: string, new_date: string, new_slot: string) =>
@@ -191,4 +213,29 @@ export const notificationsApi = {
     list: (unread_only = false) => apiFetch(`/notifications/?unread_only=${unread_only}`),
     markRead: (id: string) => apiFetch(`/notifications/${id}/read`, { method: 'PATCH' }),
     markAllRead: () => apiFetch('/notifications/read-all', { method: 'PATCH' }),
+};
+
+// ─── Professionals endpoints ─────────────────────────────────────────────────────
+
+export interface Professional {
+    id: string;
+    user_id: string;
+    specialty: string;
+    bio: string | null;
+    experience_years: number;
+    is_available: boolean;
+    avg_rating: number;
+    total_jobs: number;
+    is_kyc_verified: boolean;
+    is_suspended: boolean;
+}
+
+export const professionalsApi = {
+    list: (params?: { specialty?: string }) => {
+        const qs = new URLSearchParams(params as Record<string, string>).toString();
+        return apiFetch<Professional[]>(`/professionals/${qs ? `?${qs}` : ''}`);
+    },
+    get: (id: string) => apiFetch<Professional>(`/professionals/${id}`),
+    updateMe: (data: { specialty?: string; bio?: string; is_available?: boolean; experience_years?: number }) =>
+        apiFetch<Professional>('/professionals/me', { method: 'PATCH', body: JSON.stringify(data) }),
 };

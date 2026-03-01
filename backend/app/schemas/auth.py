@@ -9,6 +9,7 @@ class RegisterRequest(BaseModel):
     password: str
     phone: str | None = None
     role: UserRole = UserRole.user
+    specialty: str | None = None  # Required when role=professional
 
     @field_validator("password")
     @classmethod

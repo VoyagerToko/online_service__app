@@ -37,15 +37,20 @@ async def get_price_quote(body: PriceQuoteRequest, db: DbSession):
 
 @router.post("/", response_model=BookingResponse, status_code=status.HTTP_201_CREATED)
 async def create_booking(body: BookingCreate, db: DbSession, current_user: CurrentUser):
-    """Create a new booking. Deducts from wallet if user selects wallet payment."""
-    service = await db.scalar(select(Service).where(Service.id == body.service_id, Service.is_active == True))
-    if not service:
-        raise HTTPException(status_code=404, detail="Service not found or unavailable")
-
-    breakdown = calculate_price(float(service.base_price), addons=body.addons)
+    """Create a new booking. service_id is optional for direct-professional bookings."""
+    if body.service_id:
+        service = await db.scalar(select(Service).where(Service.id == body.service_id, Service.is_active == True))
+        if not service:
+            raise HTTPException(status_code=404, detail="Service not found or unavailable")
+        breakdown = calculate_price(float(service.base_price), addons=body.addons)
+    else:
+        # Direct professional booking — no service selected, price TBD
+        breakdown = calculate_price(0.0, addons=body.addons)
 
     booking = Booking(
         service_id=body.service_id,
+        pro_id=body.pro_id,
+        description=body.description,
         user_id=current_user.id,
         scheduled_date=body.scheduled_date,
         time_slot=body.time_slot,
@@ -62,8 +67,8 @@ async def create_booking(body: BookingCreate, db: DbSession, current_user: Curre
     )
     db.add(booking)
     await db.flush()
+    await db.refresh(booking)
 
-    # Log initial timeline entry
     db.add(BookingStatusTimeline(
         booking_id=booking.id,
         status=BookingStatus.requested,
@@ -109,6 +114,15 @@ async def accept_booking(booking_id: str, db: DbSession, current_user: CurrentUs
     booking, pro = await _get_booking_and_pro(booking_id, db, current_user)
     booking.pro_id = pro.id
     return await transition_booking(db, booking, BookingStatus.accepted, current_user, note="Accepted by professional")
+
+
+@router.patch("/{booking_id}/reject", response_model=BookingResponse)
+async def reject_booking(booking_id: str, db: DbSession, current_user: CurrentUser):
+    """Professional rejects a requested booking."""
+    booking, _ = await _get_booking_and_pro(booking_id, db, current_user)
+    if booking.status != BookingStatus.requested:
+        raise HTTPException(status_code=400, detail="Can only reject bookings in 'requested' status")
+    return await transition_booking(db, booking, BookingStatus.cancelled, current_user, note="Rejected by professional")
 
 
 @router.patch("/{booking_id}/start", response_model=BookingResponse)

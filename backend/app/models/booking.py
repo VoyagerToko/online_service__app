@@ -20,9 +20,11 @@ class Booking(Base, TimestampMixin):
     __tablename__ = "bookings"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=generate_uuid)
-    service_id: Mapped[str] = mapped_column(String(36), ForeignKey("services.id"), nullable=False)
+    service_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("services.id"), nullable=True)
     user_id: Mapped[str] = mapped_column(String(36), ForeignKey("users.id"), nullable=False)
     pro_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("professionals.id"), nullable=True)
+
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     status: Mapped[BookingStatus] = mapped_column(
         SAEnum(BookingStatus), default=BookingStatus.requested, nullable=False, index=True

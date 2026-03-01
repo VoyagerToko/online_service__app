@@ -37,10 +37,11 @@ async def register(body: RegisterRequest, db: DbSession, bg: BackgroundTasks):
     )
     db.add(user)
     await db.flush()  # get user.id
+    await db.refresh(user)  # fetch server_default values (created_at, etc.)
 
     # Auto-create professional profile if role = professional
     if body.role == UserRole.professional:
-        pro = Professional(user_id=user.id, specialty="General")
+        pro = Professional(user_id=user.id, specialty=body.specialty or "General")
         db.add(pro)
 
     token = generate_email_token(user.email, salt="email-verify")

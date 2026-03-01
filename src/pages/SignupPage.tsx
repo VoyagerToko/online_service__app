@@ -1,22 +1,49 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Lock, User, Phone, ArrowRight, Github, Chrome, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, User, Phone, ArrowRight, ShieldCheck, Briefcase } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../context/AuthContext';
+import { authApi } from '../api/client';
+
+const SPECIALTIES = [
+  'Electrician', 'Plumber', 'Cleaner', 'Painter',
+  'Carpenter', 'AC Technician', 'Appliance Repair', 'Other',
+];
 
 export const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState<'user' | 'professional'>('user');
+  const [specialty, setSpecialty] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login('user');
-    navigate('/dashboard');
+    if (role === 'professional' && !specialty) {
+      setError('Please select your specialty.');
+      return;
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    setError('');
+    setIsLoading(true);
+    try {
+      await authApi.register({ name, email, phone, password, role, specialty: role === 'professional' ? specialty : undefined });
+      await login(email, password);
+      navigate(role === 'professional' ? '/pro-dashboard' : '/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -57,6 +84,29 @@ export const SignupPage: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* Role Toggle */}
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">I am a</label>
+              <div className="grid grid-cols-2 gap-2">
+                {(['user', 'professional'] as const).map(r => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => setRole(r)}
+                    className={`flex items-center justify-center gap-2 py-2.5 rounded-2xl border-2 text-sm font-bold transition-all ${
+                      role === r
+                        ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20 text-brand-600'
+                        : 'border-slate-200 dark:border-slate-700 text-slate-500 hover:border-slate-300'
+                    }`}
+                  >
+                    {r === 'user' ? <User size={16} /> : <Briefcase size={16} />}
+                    {r === 'user' ? 'Customer' : 'Professional'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Full Name</label>
               <div className="relative group">
@@ -102,6 +152,24 @@ export const SignupPage: React.FC = () => {
               </div>
             </div>
 
+            {/* Specialty — only shown for professionals */}
+            {role === 'professional' && (
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Your Specialty</label>
+                <div className="relative group">
+                  <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" size={18} />
+                  <select
+                    value={specialty}
+                    onChange={(e) => setSpecialty(e.target.value)}
+                    className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm appearance-none"
+                  >
+                    <option value="">Select your specialty...</option>
+                    {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Password</label>
               <div className="relative group">
@@ -117,8 +185,12 @@ export const SignupPage: React.FC = () => {
               </div>
             </div>
 
-            <Button type="submit" className="w-full py-3.5 mt-4">
-              Create Account <ArrowRight size={18} className="ml-2" />
+            {error && (
+              <p className="text-sm text-red-500 font-medium bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>
+            )}
+
+            <Button type="submit" disabled={isLoading} className="w-full py-3.5 mt-4">
+              {isLoading ? 'Creating account...' : <> Create Account <ArrowRight size={18} className="ml-2" /></>}
             </Button>
           </form>
 

@@ -4,7 +4,9 @@ from app.models.booking import BookingStatus
 
 
 class BookingCreate(BaseModel):
-    service_id: str
+    service_id: str | None = None       # optional — for free-text / direct-pro bookings
+    pro_id: str | None = None           # pre-assign a specific professional
+    description: str | None = None      # free-text description of the work needed
     scheduled_date: date
     time_slot: str
     address: str
@@ -16,13 +18,14 @@ class BookingCreate(BaseModel):
 
 class BookingResponse(BaseModel):
     id: str
-    service_id: str
+    service_id: str | None
     user_id: str
     pro_id: str | None
     status: BookingStatus
     scheduled_date: date
     time_slot: str
     address: str
+    description: str | None
     base_price: float
     addons: list[dict] | None
     platform_fee: float

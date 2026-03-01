@@ -4,24 +4,25 @@ Auth service — JWT generation/verification, bcrypt hashing, email tokens.
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+import bcrypt
 from jose import jwt, JWTError
-from passlib.context import CryptContext
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from fastapi import HTTPException, status
 
 from app.config import settings
 
 # ─── Password hashing ──────────────────────────────────────────────────────────
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
+# Using bcrypt directly — passlib 1.7.4 is incompatible with bcrypt >= 4.0.0
 
 def hash_password(plain: str) -> str:
-    return pwd_context.hash(plain)
+    return bcrypt.hashpw(plain.encode(), bcrypt.gensalt()).decode()
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    try:
+        return bcrypt.checkpw(plain.encode(), hashed.encode())
+    except Exception:
+        return False
 
 
 # ─── JWT ───────────────────────────────────────────────────────────────────────

@@ -35,6 +35,7 @@ class User(Base, TimestampMixin):
     professional_profile = relationship("Professional", back_populates="user", uselist=False, lazy="select")
     bookings = relationship("Booking", foreign_keys="Booking.user_id", back_populates="user", lazy="select")
     reviews = relationship("Review", foreign_keys="Review.reviewer_id", back_populates="reviewer", lazy="select")
+    reviews_received = relationship("Review", foreign_keys="Review.reviewee_id", back_populates="reviewee", lazy="select")
     wallet_transactions = relationship("WalletTransaction", back_populates="user", lazy="select")
     notifications = relationship("Notification", back_populates="user", lazy="select")
 
