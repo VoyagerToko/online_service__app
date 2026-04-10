@@ -30,8 +30,9 @@ services:
       - key: REFRESH_TOKEN_EXPIRE_DAYS
         value: 7
 
-  - type: static
+  - type: web
     name: servify-frontend
+    runtime: static
     rootDir: .
     buildCommand: npm install && npm run build
     staticPublishPath: dist
