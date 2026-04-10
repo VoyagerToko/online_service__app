@@ -3,6 +3,7 @@ Admin router — user/pro management, analytics dashboard.
 """
 from fastapi import APIRouter, HTTPException
 from sqlalchemy import select, func
+from sqlalchemy.orm import selectinload
 
 from app.deps import DbSession, RequireAdmin
 from app.models.user import User, UserRole
@@ -11,9 +12,26 @@ from app.models.booking import Booking, BookingStatus
 from app.models.payment import Payment, PaymentStatus
 from app.models.dispute import Dispute, DisputeStatus
 from app.models.kyc import KYCDocument, KYCStatus
-from app.schemas.common import AnalyticsSummary
+from app.schemas.common import AnalyticsSummary, AdminAccountResponse
+from app.services.account_service import soft_delete_user_account
 
 router = APIRouter(prefix="/admin", tags=["admin"])
+
+
+def _to_admin_account(user: User) -> AdminAccountResponse:
+    pro = user.professional_profile
+    return AdminAccountResponse(
+        id=user.id,
+        name=user.name,
+        email=user.email,
+        role=user.role.value,
+        is_active=user.is_active,
+        is_blocked=user.is_blocked,
+        is_email_verified=user.is_email_verified,
+        created_at=user.created_at,
+        professional_id=pro.id if pro else None,
+        is_suspended=pro.is_suspended if pro else None,
+    )
 
 
 @router.get("/analytics", response_model=AnalyticsSummary)
@@ -50,6 +68,19 @@ async def block_user(user_id: str, db: DbSession, _admin: RequireAdmin):
     user = await db.scalar(select(User).where(User.id == user_id))
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+
+    if user.role == UserRole.admin:
+        active_admins = await db.scalar(
+            select(func.count(User.id)).where(
+                User.role == UserRole.admin,
+                User.id != user.id,
+                User.is_active.is_(True),
+                User.is_blocked.is_(False),
+            )
+        )
+        if not active_admins:
+            raise HTTPException(status_code=400, detail="Cannot block the last active admin account")
+
     user.is_blocked = True
     return {"message": f"User {user.email} has been blocked"}
 
@@ -59,8 +90,45 @@ async def unblock_user(user_id: str, db: DbSession, _admin: RequireAdmin):
     user = await db.scalar(select(User).where(User.id == user_id))
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+
+    if not user.is_active:
+        raise HTTPException(status_code=400, detail="Cannot unblock an inactive/deleted account")
+
     user.is_blocked = False
     return {"message": f"User {user.email} has been unblocked"}
+
+
+@router.patch("/users/{user_id}/suspend")
+async def suspend_user_professional(user_id: str, db: DbSession, _admin: RequireAdmin):
+    user = await db.scalar(
+        select(User)
+        .options(selectinload(User.professional_profile))
+        .where(User.id == user_id)
+    )
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user.role != UserRole.professional or not user.professional_profile:
+        raise HTTPException(status_code=400, detail="User is not a professional account")
+
+    user.professional_profile.is_suspended = True
+    user.professional_profile.is_available = False
+    return {"message": "Professional account suspended"}
+
+
+@router.patch("/users/{user_id}/reinstate")
+async def reinstate_user_professional(user_id: str, db: DbSession, _admin: RequireAdmin):
+    user = await db.scalar(
+        select(User)
+        .options(selectinload(User.professional_profile))
+        .where(User.id == user_id)
+    )
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user.role != UserRole.professional or not user.professional_profile:
+        raise HTTPException(status_code=400, detail="User is not a professional account")
+
+    user.professional_profile.is_suspended = False
+    return {"message": "Professional account reinstated"}
 
 
 @router.patch("/professionals/{pro_id}/suspend")
@@ -115,10 +183,43 @@ async def reject_kyc(doc_id: str, db: DbSession, _admin: RequireAdmin):
     return {"message": "KYC document rejected"}
 
 
-@router.get("/users", summary="List all users (paginated)")
-async def list_users(db: DbSession, _admin: RequireAdmin, skip: int = 0, limit: int = 50, role: UserRole | None = None):
-    q = select(User)
+@router.get("/users", response_model=list[AdminAccountResponse], summary="List all users (paginated)")
+async def list_users(db: DbSession, _admin: RequireAdmin, skip: int = 0, limit: int = 200, role: UserRole | None = None):
+    q = (
+        select(User)
+        .options(selectinload(User.professional_profile))
+        .where(User.is_active.is_(True))
+    )
     if role:
         q = q.where(User.role == role)
     result = await db.execute(q.order_by(User.created_at.desc()).offset(skip).limit(limit))
-    return result.scalars().all()
+    users = result.scalars().all()
+    return [_to_admin_account(user) for user in users]
+
+
+@router.delete("/users/{user_id}")
+async def delete_user_account(user_id: str, db: DbSession, _admin: RequireAdmin):
+    user = await db.scalar(
+        select(User)
+        .options(
+            selectinload(User.professional_profile).selectinload(Professional.public_profile)
+        )
+        .where(User.id == user_id)
+    )
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.role == UserRole.admin:
+        active_admins = await db.scalar(
+            select(func.count(User.id)).where(
+                User.role == UserRole.admin,
+                User.id != user.id,
+                User.is_active.is_(True),
+                User.is_blocked.is_(False),
+            )
+        )
+        if not active_admins:
+            raise HTTPException(status_code=400, detail="Cannot delete the last active admin account")
+
+    soft_delete_user_account(user)
+    return {"message": "Account deleted successfully"}

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Browse Services | Servify</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#6e3818",
+                    "on-primary-container": "#94e2e4",
+                    "on-tertiary-container": "#ffcaaf",
+                    "tertiary-fixed": "#ffdbca",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-container": "#eeeef0",
+                    "on-surface-variant": "#3f4949",
+                    "surface-variant": "#e2e2e5",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#022020",
+                    "primary-fixed": "#a2f0f2",
+                    "secondary-fixed": "#cae8e8",
+                    "tertiary-fixed-dim": "#ffb68f",
+                    "on-secondary-container": "#4c6868",
+                    "on-primary-fixed": "#002021",
+                    "surface-tint": "#06696b",
+                    "tertiary-container": "#884d2b",
+                    "surface-dim": "#dadadc",
+                    "primary-container": "#006769",
+                    "inverse-surface": "#2f3133",
+                    "surface-bright": "#f9f9fc",
+                    "on-primary-fixed-variant": "#004f51",
+                    "on-error": "#ffffff",
+                    "outline": "#6f7979",
+                    "on-tertiary": "#ffffff",
+                    "secondary-container": "#c7e5e6",
+                    "surface": "#f9f9fc",
+                    "surface-container-highest": "#e2e2e5",
+                    "secondary": "#486364",
+                    "on-secondary": "#ffffff",
+                    "background": "#f9f9fc",
+                    "on-tertiary-fixed": "#331100",
+                    "outline-variant": "#bec9c8",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#86d3d5",
+                    "surface-container-low": "#f3f3f6",
+                    "on-secondary-fixed-variant": "#304b4c",
+                    "tertiary": "#6b3616",
+                    "inverse-on-surface": "#f0f0f3",
+                    "primary": "#004d4f",
+                    "secondary-fixed-dim": "#aecccc",
+                    "on-surface": "#1a1c1e",
+                    "on-background": "#1a1c1e",
+                    "inverse-primary": "#86d3d5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-nav {
+            background: rgba(249, 249, 252, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9fc]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none h-20">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto h-full">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-tight text-[#004d4f] dark:text-[#f9f9fc]">Servify</span>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#004d4f] dark:text-[#c7e5e6] border-b-2 border-[#004d4f] pb-1 font-medium transition-all duration-300" href="#">Browse Services</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#004d4f] font-medium transition-all duration-300" href="#">How It Works</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#004d4f] font-medium transition-all duration-300" href="#">Portfolio</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-[#f3f3f6] rounded-lg transition-all">Log In</button>
+<button class="px-6 py-2.5 text-sm font-semibold bg-primary text-on-primary rounded-lg shadow-sm hover:scale-95 transition-transform duration-200">Become a Pro</button>
+</div>
+</div>
+</nav>
+<div class="flex flex-1 pt-20">
+<!-- Sidebar Filters -->
+<aside class="hidden lg:flex flex-col w-80 bg-surface-container-low p-8 h-[calc(100vh-5rem)] sticky top-20 overflow-y-auto">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant">Filters</h2>
+<button class="text-xs font-semibold text-primary underline">Reset All</button>
+</div>
+<!-- Categories -->
+<div class="mb-10">
+<h3 class="text-sm font-bold text-on-surface mb-4">Category</h3>
+<div class="space-y-3">
+<label class="flex items-center group cursor-pointer">
+<input class="w-5 h-5 rounded border-outline-variant bg-surface-container-highest text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">Servify Design</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-5 h-5 rounded border-outline-variant bg-surface-container-highest text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">Architectural Photography</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-5 h-5 rounded border-outline-variant bg-surface-container-highest text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">Interior Styling</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-5 h-5 rounded border-outline-variant bg-surface-container-highest text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-primary transition-colors">Content Strategy</span>
+</label>
+</div>
+</div>
+<!-- Price Range -->
+<div class="mb-10">
+<h3 class="text-sm font-bold text-on-surface mb-4">Price Range</h3>
+<div class="px-2">
+<input class="w-full h-1.5 bg-surface-container-highest rounded-full appearance-none accent-primary cursor-pointer" type="range"/>
+<div class="flex justify-between mt-3 text-xs font-medium text-on-surface-variant">
+<span>$50/hr</span>
+<span>$500+/hr</span>
+</div>
+</div>
+</div>
+<!-- Professional Rating -->
+<div class="mb-10">
+<h3 class="text-sm font-bold text-on-surface mb-4">Professional Rating</h3>
+<div class="space-y-3">
+<button class="flex items-center w-full px-3 py-2 rounded-lg bg-surface-container-lowest shadow-sm text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="ml-2 text-sm font-semibold">4.5 &amp; Above</span>
+</button>
+<button class="flex items-center w-full px-3 py-2 rounded-lg hover:bg-surface-container-highest transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="ml-2 text-sm">4.0 &amp; Above</span>
+</button>
+</div>
+</div>
+<!-- Availability -->
+<div class="mb-10">
+<h3 class="text-sm font-bold text-on-surface mb-4">Availability</h3>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2 text-xs font-bold border border-outline-variant rounded-lg hover:bg-primary hover:text-white hover:border-primary transition-all">Today</button>
+<button class="py-2 text-xs font-bold border border-outline-variant rounded-lg hover:bg-primary hover:text-white hover:border-primary transition-all">This Week</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 bg-surface min-w-0">
+<!-- Header Section -->
+<header class="px-8 py-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-4xl font-bold tracking-tight text-on-surface mb-2">Discovery</h1>
+<p class="text-on-surface-variant">Showing 142 curated professionals in Architectural Photography</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Sort By</span>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low border-none rounded-lg px-6 py-2.5 text-sm font-semibold pr-10 focus:ring-2 focus:ring-primary/20">
+<option>Most Popular</option>
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Rating</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Grid of Cards -->
+<div class="px-8 pb-20 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Professional Card 1 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Modern architectural house with clean lines and large windows at dusk with warm interior lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJfw1F0M5eEpamelVprN8kyRvm-usRIvKPikiPzwbv3PRDT1H32-kAL3Mml4-QelmK124qdeJGDYHD-S5XrvFxSUKMPjTPB-_BcZoJ--vuDFcEgM29IY6ohVq6HkI7VpX-x8yyiVEIZC4fib_8j-VbT0lYIEkTMwQhDyPrO6RnfKyL9ivHGRN71Gza4YkcPBRJZzZ-1kQdGc6Clgm3fR8xKMGegIKNtpd2Rdovr9RXdM7kiNpmCcSpglwYyTMn3uX9RcewWvoUiEs"/>
+<div class="absolute top-4 right-4">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider rounded-full shadow-lg">Verified Pro</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">Julian Thorne</h3>
+<p class="text-sm font-medium text-primary">Architectural Photographer</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.9</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6 line-clamp-2">Specializing in minimalist residential structures and urban geometric captures with over 12 years of servify experience.</p>
+<div class="mt-auto pt-6 border-t border-surface-container-high flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">Starting From</span>
+<span class="text-lg font-bold text-on-surface">$180<span class="text-xs font-normal text-slate-400">/hr</span></span>
+</div>
+<button class="p-3 bg-primary text-on-primary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Professional Card 2 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Interior of a luxury modern living room with organic textures and soft neutral color palette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1xve5aEJLwN4m1g20N7ntGH6BEBWofUUmnFpA88zwe2WY3OGtdhrq6_qbfKWf3ULnM0y41r6_yg_ZOwPXlNUGaDd84w3SrBLJlkzz1I1b4FPOBpz0Ya6cmFFYeEXJe9kJaxeyEwF6F9cAwUP-Z_Yrfqhb1y6JnM3EX4ZZ-n3OsaQ4ChLL56kJeUngU_ECD3K9uMd6StCb9qv9JXrdg6yxMVfj2P4wwY0I0paMJmq0d-lTf4k1jS5hBt23CPYvyzJKCIpIOHKBcPg"/>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">Elena Rossi</h3>
+<p class="text-sm font-medium text-primary">Interior Stylist</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.8</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6 line-clamp-2">Creating sensory-driven interior spaces that balance high-end aesthetics with livable comfort for premium editorials.</p>
+<div class="mt-auto pt-6 border-t border-surface-container-high flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">Starting From</span>
+<span class="text-lg font-bold text-on-surface">$225<span class="text-xs font-normal text-slate-400">/hr</span></span>
+</div>
+<button class="p-3 bg-primary text-on-primary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Professional Card 3 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Overhead shot of a minimalist workstation with high-end magazine spreads and design tools" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIJXzReNDfLb_qCRzxax1qy_pXct3gl3AlCWXrpnU5VBl5WXPMglyS7XHFLJDai5Hbi102GsCyU-PO0z_bZ2KWGpTXySjBxjVsv4mXO_uf-7c3Gh1rX6IQFAOomkc1udixAeuZ7hRLfigHoNTUmSfrnoE3SXLPJM5AeXnhoapu1KxFEEyeRJRLflhWgtQ4hyRkHTcQOgbgNWlYhDSQQ_2ZkETu8zfkQ5f8ZPHMD1PDuo38AKjuK6DZBtWVg0pEGsDg6gFis-fL-4I"/>
+<div class="absolute top-4 right-4">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider rounded-full shadow-lg">New Talent</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">Marcus Chen</h3>
+<p class="text-sm font-medium text-primary">Servify Designer</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">5.0</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6 line-clamp-2">Master of typography and grid systems. Marcus brings a signature architectural precision to digital and print layouts.</p>
+<div class="mt-auto pt-6 border-t border-surface-container-high flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">Starting From</span>
+<span class="text-lg font-bold text-on-surface">$150<span class="text-xs font-normal text-slate-400">/hr</span></span>
+</div>
+<button class="p-3 bg-primary text-on-primary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Professional Card 4 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Professional camera equipment focused on a distant mountain peak during sunrise" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrJY1l2DyEoUoFrki9BcT5-bevaRc8rMcyk5JhKlWfNDU8sZy2tjViSoqDad_gwfQBMyJZbeNunPaUIT2HQIJi_qAT07kfDcLHoR7XtCfYSxoFvzD9w7kKuKfO_GCVjhGuE7nC_Y9p0I0zzMb-34D0xt4BgLg7mTpTQrQ_JRFavG0LJPja-fVfktqh_t92CRKEm4N-n2-7pP8mSuRijh__RJuafz7w5jr7yzXwp67ZSUsUWRJCQOxPkS1mq3aMayy-3y-X3xsQFX0"/>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">Sarah Jenkins</h3>
+<p class="text-sm font-medium text-primary">Travel Photographer</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.7</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6 line-clamp-2">Documenting the world's most remote locations with an emphasis on natural lighting and authentic cultural narratives.</p>
+<div class="mt-auto pt-6 border-t border-surface-container-high flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">Starting From</span>
+<span class="text-lg font-bold text-on-surface">$300<span class="text-xs font-normal text-slate-400">/hr</span></span>
+</div>
+<button class="p-3 bg-primary text-on-primary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Professional Card 5 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Close up portrait of a man with focused expression in a creative studio environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNjWYrVNSbgA_RYeLP89xXxzD5_vQoU6ZG9xLMJkq3L3HZm6aNAzUQf_dBIT0MApTO3V3f8GLHtIir1JAHVpN-E4zX-nCJivZldFZofDp-1GvxhJBzww8sdBlHcPumFQQvtfwfTBWUirwpyAw3ngtWj2mB3_VlQcdoUp9gK-VkM5HLJh-7IJM2a-oyV5Sln9BlglF4WLOU_5EGX3_8le18T8UPklBWgCKb05I5DhkhZb366oJtIiL9dbo_RBsMFsASBzn3vzuQnEM"/>
+<div class="absolute top-4 right-4">
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider rounded-full shadow-lg">Verified Pro</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">David Vance</h3>
+<p class="text-sm font-medium text-primary">Executive Portraiture</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.9</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6 line-clamp-2">Redefining professional identity through cinematic lighting and thoughtful composition for Fortune 500 leaders.</p>
+<div class="mt-auto pt-6 border-t border-surface-container-high flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">Starting From</span>
+<span class="text-lg font-bold text-on-surface">$250<span class="text-xs font-normal text-slate-400">/hr</span></span>
+</div>
+<button class="p-3 bg-primary text-on-primary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Professional Card 6 -->
+<div class="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Creative workspace with mood boards and fabric samples in a bright sunlit atelier" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdZLZBZlRVpY2PQdmbWSbSOFBDCPz9va-OKMcQHvr7e7mraHWmEbB0iJGkSa6tJxmcPyIQX_DvpXrEdAwEESB5_VHw_t6MPkurfgt4XpFO0yPP1L4WloTCxtkAAkZOukL-fjP7mNfrzAqn_bREyUh4nvH8SfPb-lwbHiiDHth99rFAu3eJvZicfoChY3vrPs1E_CZpe8706sR76IXJwIw9Yk-TxOezvk-zMdOa9djndBBpohlQGss9jJQQdm5ashJq3VXnJ5HD3eM"/>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">Sophia Miller</h3>
+<p class="text-sm font-medium text-primary">Content Strategist</p>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-bold">4.6</span>
+</div>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed mb-6 line-clamp-2">Building cohesive brand stories through visual narrative and servify planning for boutique lifestyle brands.</p>
+<div class="mt-auto pt-6 border-t border-surface-container-high flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">Starting From</span>
+<span class="text-lg font-bold text-on-surface">$110<span class="text-xs font-normal text-slate-400">/hr</span></span>
+</div>
+<button class="p-3 bg-primary text-on-primary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="px-8 pb-20 flex items-center justify-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-low text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-low font-bold text-sm">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-low font-bold text-sm">3</button>
+<span class="px-2 text-slate-400">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-low font-bold text-sm">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-low text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-16 px-8 mt-auto bg-surface-dim dark:bg-slate-950">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-6">
+<span class="text-xl font-bold text-[#004d4f]">Servify</span>
+<p class="text-slate-600 dark:text-slate-400 max-w-xs leading-relaxed">The premier destination for discovering world-class servify talent and professional architectural services.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+<div class="space-y-4">
+<h4 class="text-xs font-bold uppercase tracking-widest text-[#004d4f]">Platform</h4>
+<nav class="flex flex-col space-y-2">
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Terms of Service</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Cookie Policy</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h4 class="text-xs font-bold uppercase tracking-widest text-[#004d4f]">Support</h4>
+<nav class="flex flex-col space-y-2">
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Support Center</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Contact Us</a>
+</nav>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-300 dark:border-slate-800">
+<p class="text-slate-500 text-xs text-center md:text-left">© 2024 Servify. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

@@ -7,6 +7,7 @@ from sqlalchemy import select
 from app.deps import DbSession, CurrentUser
 from app.models.user import User, UserRole
 from app.models.professional import Professional
+from app.models.professional_public_profile import ProfessionalPublicProfile
 from app.schemas.auth import (
     RegisterRequest, LoginRequest, TokenResponse, RefreshRequest,
     ForgotPasswordRequest, ResetPasswordRequest, UserResponse,
@@ -43,6 +44,14 @@ async def register(body: RegisterRequest, db: DbSession, bg: BackgroundTasks):
     if body.role == UserRole.professional:
         pro = Professional(user_id=user.id, specialty=body.specialty or "General")
         db.add(pro)
+        await db.flush()
+        db.add(
+            ProfessionalPublicProfile(
+                professional_id=pro.id,
+                public_phone=user.phone,
+                public_email=user.email,
+            )
+        )
 
     token = generate_email_token(user.email, salt="email-verify")
     bg.add_task(send_verification_email, user.email, token, user.name)

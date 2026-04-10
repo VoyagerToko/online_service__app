@@ -1,0 +1,18 @@
+{
+    "awesome-copilot-sync.repositories": [
+        {
+            "label": "github/awesome-copilot",
+            "repository": "github/awesome-copilot",
+            "branch": "main"
+        }
+    ],
+    "chat.mcp.serverSampling": {
+        "online_service__app/.vscode/mcp.json: component": {
+            "allowedModels": [
+                "copilotcli/claude-sonnet-4.5",
+                "copilotcli/claude-opus-4.5",
+                "copilot/gpt-5.3-codex"
+            ]
+        }
+    }
+}

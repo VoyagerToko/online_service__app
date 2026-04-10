@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servify - Client Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#6e3818",
+                    "on-primary-container": "#94e2e4",
+                    "on-tertiary-container": "#ffcaaf",
+                    "tertiary-fixed": "#ffdbca",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-container": "#eeeef0",
+                    "on-surface-variant": "#3f4949",
+                    "surface-variant": "#e2e2e5",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#022020",
+                    "primary-fixed": "#a2f0f2",
+                    "secondary-fixed": "#cae8e8",
+                    "tertiary-fixed-dim": "#ffb68f",
+                    "on-secondary-container": "#4c6868",
+                    "on-primary-fixed": "#002021",
+                    "surface-tint": "#06696b",
+                    "tertiary-container": "#884d2b",
+                    "surface-dim": "#dadadc",
+                    "primary-container": "#006769",
+                    "inverse-surface": "#2f3133",
+                    "surface-bright": "#f9f9fc",
+                    "on-primary-fixed-variant": "#004f51",
+                    "on-error": "#ffffff",
+                    "outline": "#6f7979",
+                    "on-tertiary": "#ffffff",
+                    "secondary-container": "#c7e5e6",
+                    "surface": "#f9f9fc",
+                    "surface-container-highest": "#e2e2e5",
+                    "secondary": "#486364",
+                    "on-secondary": "#ffffff",
+                    "background": "#f9f9fc",
+                    "on-tertiary-fixed": "#331100",
+                    "outline-variant": "#bec9c8",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#86d3d5",
+                    "surface-container-low": "#f3f3f6",
+                    "on-secondary-fixed-variant": "#304b4c",
+                    "tertiary": "#6b3616",
+                    "inverse-on-surface": "#f0f0f3",
+                    "primary": "#004d4f",
+                    "secondary-fixed-dim": "#aecccc",
+                    "on-surface": "#1a1c1e",
+                    "on-background": "#1a1c1e",
+                    "inverse-primary": "#86d3d5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-[#f3f3f6] dark:bg-slate-950 p-6 space-y-4 fixed left-0 top-0 overflow-y-auto">
+<div class="mb-8">
+<h1 class="text-2xl font-bold tracking-tight text-[#004d4f] dark:text-[#f9f9fc]">Servify</h1>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-[#004d4f] dark:text-[#f9f9fc] font-semibold rounded-lg shadow-sm hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-xs font-label tracking-wider">OVERVIEW</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="text-xs font-label tracking-wider">MY BOOKINGS</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-xs font-label tracking-wider">MESSAGES</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-xs font-label tracking-wider">EARNINGS</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-xs font-label tracking-wider">SETTINGS</span>
+</a>
+</nav>
+<div class="mt-auto pt-6">
+<button class="w-full py-3 px-4 bg-primary text-on-primary rounded-lg font-medium text-sm hover:shadow-lg transition-all active:scale-95">
+                Switch to Pro View
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 min-h-screen bg-surface">
+<!-- TopNavBar Shell (Search & Branding for Desktop) -->
+<header class="fixed top-0 right-0 left-0 md:left-64 z-50 bg-[#f9f9fc]/80 backdrop-blur-xl flex justify-between items-center px-8 py-4">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full w-full max-w-md">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full outline-none" placeholder="Search services..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex gap-6">
+<a class="text-slate-500 hover:text-[#004d4f] text-sm font-medium transition-colors" href="#">Browse Services</a>
+<a class="text-slate-500 hover:text-[#004d4f] text-sm font-medium transition-colors" href="#">How It Works</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="notifications">notifications</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="Profile Avatar" class="w-full h-full object-cover" data-alt="close-up portrait of a professional man with a friendly smile, clean lighting, blurred architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhqyfTQ8Hg7Al_Wn_vPEqR1i0KhEMcGtCdnEX741U6J6-ZDRPzy-vui7sNvoqtiQqZYNFXf8tzwPzYZ7QcfYO1yVf_jcGZF-pGiA8OR4fkzLc0xlV_EZYp6cREf-9JOXp4kUMUZkTyq90oVvueJzEEZntDla7LHzJOJC6LQxejjlBKJWCJPiGeFCfXikm58QW4KpFO8JpcsngjhvbP0DKD5CXIe-BdVpm7wJxo4C-Xa9AT_UNe_c4LPiLAo21-Ckpj2VPtn60hj6M"/>
+</div>
+</div>
+</div>
+</header>
+<div class="pt-24 pb-16 px-8 max-w-7xl mx-auto">
+<!-- Welcome Header -->
+<section class="mb-12">
+<h2 class="text-4xl font-bold text-on-surface mb-2">Welcome back, Adrian</h2>
+<div class="flex flex-wrap gap-4 mt-6">
+<div class="bg-primary-container/10 border border-primary-container/20 px-6 py-4 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="event_available">event_available</span>
+<div>
+<p class="text-2xl font-bold text-primary">3</p>
+<p class="text-xs font-label uppercase tracking-widest text-on-secondary-container">Upcoming Bookings</p>
+</div>
+</div>
+<div class="bg-secondary-container/30 px-6 py-4 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="mail">mail</span>
+<div>
+<p class="text-2xl font-bold text-secondary">2</p>
+<p class="text-xs font-label uppercase tracking-widest text-on-secondary-container">New Messages</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Main Activity Column -->
+<div class="lg:col-span-2 space-y-12">
+<!-- Upcoming Bookings: Glassmorphism / Minimalist -->
+<div>
+<div class="flex justify-between items-end mb-6">
+<h3 class="text-xl font-semibold">Upcoming Bookings</h3>
+<a class="text-primary text-sm font-medium hover:underline" href="#">View Calendar</a>
+</div>
+<div class="space-y-4">
+<!-- Booking Card -->
+<div class="group bg-surface-container-lowest p-6 rounded-xl flex items-center gap-6 hover:shadow-md transition-all duration-300">
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+<img alt="Pro" class="w-full h-full object-cover" data-alt="professional woman architect working at a clean minimalist desk with soft daylight and greenery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApX9-5N3hdFOQoBXCE8cBNFjoUAWu_plaojhh5saZ71K-i7YchhQCYOQgUZzjspP5WdLbirfY02ItbA6yiHLEahr7TyziPJ4EEBJs-UvJJ8kvg9UpaT1AREcrcTYokK301mTsoJB1ZI31JWqQ0PNozgM1lfPZPxI-4X3J-jGF0q_-eiHzWbJ_IYNFrbFmWqruyBJ-hDgt0Av7r0bXlfAQB2Ug_u4SsLJgfnJZUk_73HgVn72WCDKyBn_sRJQKKXJOGsOUx5N8thWA"/>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter">Verified Pro</span>
+<h4 class="font-semibold text-lg">Elena Vance</h4>
+</div>
+<p class="text-slate-500 text-sm">Architectural Consultation</p>
+<div class="flex items-center gap-4 mt-3 text-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base" data-icon="calendar_month">calendar_month</span> Oct 24, 2024</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span> 2:00 PM</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<span class="inline-block px-3 py-1 bg-secondary-container text-on-secondary-container text-xs font-bold rounded-full mb-4">CONFIRMED</span>
+<button class="block w-full text-xs font-semibold text-primary hover:text-primary-container">Manage</button>
+</div>
+</div>
+<!-- Booking Card 2 -->
+<div class="group bg-surface-container-lowest p-6 rounded-xl flex items-center gap-6 hover:shadow-md transition-all duration-300">
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+<img alt="Pro" class="w-full h-full object-cover" data-alt="male business consultant in a sharp suit standing in a modern office with glass walls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAL_g0tgJYF6WjLY1gbKsgl8dM_uHHE_Kt7qMPDwO4jdtcyG1OGxLmDCXUBOD7_RZu5aHCGenpUyM0rZ0MTWgTjHX34zPs-ntUomrDUMvuAys3JSaXuEHuYdKuC-d0kOKnVwe3q0LOMBH205cfCE7jT8KK6OTZlGGFxqTXZjkP63-M-saBhnlvoproIv-M-lERQKH5KtPuznOT1VoIfmT7ompaSmFJooGnsCV4IeVoPKVDvsX755RXonSdvQEQWmNQSEkY9jrCqE0"/>
+</div>
+<div class="flex-1">
+<h4 class="font-semibold text-lg">Marcus Thorne</h4>
+<p class="text-slate-500 text-sm">Strategic Branding Workshop</p>
+<div class="flex items-center gap-4 mt-3 text-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base" data-icon="calendar_month">calendar_month</span> Oct 27, 2024</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span> 10:30 AM</span>
+</div>
+</div>
+<div class="text-right shrink-0">
+<span class="inline-block px-3 py-1 bg-surface-container text-on-surface-variant text-xs font-bold rounded-full mb-4">PENDING</span>
+<button class="block w-full text-xs font-semibold text-primary hover:text-primary-container">Manage</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Past Services: List without borders (Tonal Shifts) -->
+<div>
+<h3 class="text-xl font-semibold mb-6">Past Services</h3>
+<div class="bg-surface-container-low rounded-2xl overflow-hidden">
+<div class="p-4 space-y-1">
+<div class="flex items-center justify-between p-4 hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="brush">brush</span>
+</div>
+<div>
+<p class="font-medium">Servify Design Refresh</p>
+<p class="text-xs text-slate-500">Completed on Sep 12, 2024</p>
+</div>
+</div>
+<button class="text-sm font-medium text-slate-400 group-hover:text-primary">Rebook</button>
+</div>
+<div class="flex items-center justify-between p-4 hover:bg-surface-container transition-colors rounded-xl group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="camera">camera</span>
+</div>
+<div>
+<p class="font-medium">Lifestyle Brand Shoot</p>
+<p class="text-xs text-slate-500">Completed on Aug 05, 2024</p>
+</div>
+</div>
+<button class="text-sm font-medium text-slate-400 group-hover:text-primary">Rebook</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar / Secondary Content -->
+<div class="space-y-8">
+<!-- Favorite Professionals Bento Card -->
+<div class="bg-primary text-on-primary p-8 rounded-3xl relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-xl font-bold mb-6">Favorites</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white/10 p-3 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-colors cursor-pointer">
+<div class="w-12 h-12 rounded-full overflow-hidden mb-3">
+<img alt="Fav" class="w-full h-full object-cover" data-alt="professional portrait of a young woman creative director with vibrant energy and stylish glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvqPdHDMOGJdarTIe9zEfpjjCKwGAh1lAlIabTH91-lxBZ-3EbPo3oGhCMN5BETEbVLC2F0vhLKvK73-OzdWFe3gqvTbtD5Vwt6VcPsrs23dETQ36LS3OFKRcVOxbMFLRGzxMe1BySjW_u_m99w8KzKolQmJuSUvb4qhV38CNscybwuEYOnoCE-j6i_wTejN9l5C5R9r5Z9zZeCXGCR6ytOrfBBeEa0Kjw0MkUK0KbrWLOFFKVihXyu_B6BWW74ARFaf-EIgfTNrg"/>
+</div>
+<p class="text-xs font-bold leading-tight">Sarah J.</p>
+<p class="text-[10px] text-white/60">Creative</p>
+</div>
+<div class="bg-white/10 p-3 rounded-2xl backdrop-blur-sm hover:bg-white/20 transition-colors cursor-pointer">
+<div class="w-12 h-12 rounded-full overflow-hidden mb-3">
+<img alt="Fav" class="w-full h-full object-cover" data-alt="headshot of a male senior consultant with a sophisticated look, soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1SGz1DOY2oLQVYSntBV8k-thbGRF1OkcwaLQsE3lyTSMFXehz4UeXP-y9IuO4MY09nylc8OFY0RmRc6GgZbq76irbdVX1SodXvMhycy01o7J9-k-C4L8dGjD9ScJ9981OMcvbh4v5eCWyrS0t6cOC1gwlXFUoaijVKY5ERk58dKk_JP0wYves2JuoJVY7zM6-yCEhQsQYblQfrxoHJdDiy6I96Y_NIP1cJ52qlBiyTqjcf9Uq5h7Lro7V8LniZGVUUm9ViuV1Umk"/>
+</div>
+<p class="text-xs font-bold leading-tight">David L.</p>
+<p class="text-[10px] text-white/60">Strategy</p>
+</div>
+</div>
+<button class="mt-6 text-sm font-medium flex items-center gap-2 group">
+                                Browse all favorites
+                                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-primary-container rounded-full blur-3xl opacity-30"></div>
+</div>
+<!-- Quick Navigation -->
+<div class="bg-surface-container-low rounded-3xl p-6">
+<h4 class="text-xs font-label text-slate-400 uppercase tracking-widest mb-6">Account Settings</h4>
+<ul class="space-y-4">
+<li>
+<a class="flex items-center justify-between text-on-surface hover:text-primary transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline" data-icon="person">person</span>
+<span class="font-medium">Profile Settings</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary text-lg" data-icon="chevron_right">chevron_right</span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between text-on-surface hover:text-primary transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-medium">Payment Methods</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary text-lg" data-icon="chevron_right">chevron_right</span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between text-on-surface hover:text-primary transition-colors group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline" data-icon="help">help</span>
+<span class="font-medium">Help Center</span>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary text-lg" data-icon="chevron_right">chevron_right</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Shell -->
+<footer class="bg-surface-dim dark:bg-slate-950 w-full py-16 px-8 mt-auto">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="max-w-xs">
+<h2 class="text-xl font-bold text-[#004d4f] mb-4">Servify</h2>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">Curating professional services for the modern aesthetic and discerning eye.</p>
+</div>
+<div class="flex flex-wrap gap-8 md:gap-24">
+<div class="flex flex-col gap-3">
+<span class="text-xs font-label text-[#004d4f] dark:text-slate-300 uppercase tracking-widest">Platform</span>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Browse Services</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">How It Works</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Support Center</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="text-xs font-label text-[#004d4f] dark:text-slate-300 uppercase tracking-widest">Legal</span>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Terms of Service</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Cookie Policy</a>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-300/30 flex flex-col md:flex-row justify-between gap-4">
+<p class="text-slate-500 text-xs">© 2024 Servify. All rights reserved.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer text-xl" data-icon="social_distance">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-primary cursor-pointer text-xl" data-icon="mail">alternate_email</span>
+</div>
+</div>
+</footer>
+</main>
+<!-- Contextual FAB - Floating Action Button -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform z-[100]">
+<span class="material-symbols-outlined text-2xl" data-icon="add">add</span>
+</button>
+</body></html>

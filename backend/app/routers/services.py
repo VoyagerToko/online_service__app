@@ -18,10 +18,10 @@ categories_router = APIRouter(prefix="/categories", tags=["categories"])
 # ─── Categories ─────────────────────────────────────────────────────────────────
 
 @categories_router.get("/", response_model=list[CategoryResponse])
-async def list_categories(db: DbSession, active_only: bool = True):
+async def list_categories(db: DbSession, active_only: bool = False):
     q = select(Category)
     if active_only:
-        q = q.where(Category.is_active == True)
+        q = q.where(Category.is_active.is_(True))
     result = await db.execute(q.order_by(Category.name))
     return result.scalars().all()
 
@@ -41,15 +41,19 @@ async def list_services(
     db: DbSession,
     category_id: str | None = None,
     search: str | None = None,
+    active_only: bool = False,
     skip: int = 0,
     limit: int = 50,
 ):
-    q = select(Service).where(Service.is_active == True)
+    q = select(Service)
+    if active_only:
+        q = q.where(Service.is_active.is_(True))
     if category_id:
         q = q.where(Service.category_id == category_id)
     if search:
         q = q.where(Service.name.ilike(f"%{search}%"))
-    result = await db.execute(q.offset(skip).limit(limit))
+    q = q.order_by(Service.created_at.desc()).offset(skip).limit(limit)
+    result = await db.execute(q)
     return result.scalars().all()
 
 

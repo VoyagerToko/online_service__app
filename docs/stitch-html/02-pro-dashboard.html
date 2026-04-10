@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servify - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb68f",
+                    "surface-container-low": "#f3f3f6",
+                    "surface-bright": "#f9f9fc",
+                    "on-secondary-fixed": "#022020",
+                    "on-secondary-fixed-variant": "#304b4c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1a1c1e",
+                    "primary": "#004d4f",
+                    "on-primary-fixed": "#002021",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#c7e5e6",
+                    "surface-dim": "#dadadc",
+                    "outline-variant": "#bec9c8",
+                    "background": "#f9f9fc",
+                    "on-tertiary-fixed-variant": "#6e3818",
+                    "on-primary-fixed-variant": "#004f51",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface": "#f9f9fc",
+                    "tertiary-fixed": "#ffdbca",
+                    "tertiary": "#6b3616",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-tint": "#06696b",
+                    "primary-fixed": "#a2f0f2",
+                    "surface-variant": "#e2e2e5",
+                    "inverse-primary": "#86d3d5",
+                    "on-primary-container": "#94e2e4",
+                    "on-surface-variant": "#3f4949",
+                    "on-tertiary-fixed": "#331100",
+                    "surface-container": "#eeeef0",
+                    "surface-container-highest": "#e2e2e5",
+                    "inverse-on-surface": "#f0f0f3",
+                    "on-tertiary-container": "#ffcaaf",
+                    "secondary-fixed-dim": "#aecccc",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#cae8e8",
+                    "outline": "#6f7979",
+                    "primary-fixed-dim": "#86d3d5",
+                    "on-surface": "#1a1c1e",
+                    "on-secondary-container": "#4c6868",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#006769",
+                    "secondary": "#486364",
+                    "tertiary-container": "#884d2b",
+                    "inverse-surface": "#2f3133"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tonal-shift-bg { transition: background-color 0.3s ease; }
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(24px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 border-r-0 bg-[#f3f3f6] flex flex-col p-6 space-y-4 fixed left-0 top-0 z-50">
+<div class="mb-8 px-2">
+<h2 class="font-headline text-lg font-semibold text-primary leading-tight">Servify Dashboard</h2>
+<p class="font-body text-xs text-slate-500 mt-1">Manage your professional growth</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Active State: Overview -->
+<a class="flex items-center gap-3 px-4 py-3 bg-white text-primary font-semibold rounded-lg shadow-sm transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label text-[0.75rem] uppercase tracking-wider">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label text-[0.75rem] uppercase tracking-wider">My Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label text-[0.75rem] uppercase tracking-wider">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label text-[0.75rem] uppercase tracking-wider">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label text-[0.75rem] uppercase tracking-wider">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-4 text-xs font-label uppercase tracking-widest text-primary border-t border-outline-variant/10 hover:text-primary-container transition-colors">
+                Switch to Pro View
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 p-12 max-w-7xl">
+<!-- Header Section -->
+<header class="mb-16 flex justify-between items-end">
+<div class="space-y-2">
+<span class="font-label text-xs uppercase tracking-[0.2em] text-primary opacity-70">Architecture &amp; Interior Design</span>
+<h1 class="text-5xl font-headline font-bold text-on-surface tracking-tight">Meridian Dashboard</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="font-headline font-bold text-on-surface">Elias Thorne</p>
+<p class="font-body text-xs text-slate-500">Principal Photographer</p>
+</div>
+<img alt="User Profile Avatar" class="w-14 h-14 rounded-xl object-cover" data-alt="portrait of a professional photographer in a minimalist studio setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_xM5ChswCOdoth-Gb3egOdmHzVEJG-d6uXpJpEXyF87PcrCe1N-0izVu4qnhKxM_F6Kifw15UFD8R7GuCXRWpCCJaS_XGeXTynQ5kI7GQgizr_lBGs_3xPySjaifPUhWbmdLhVXBJw128h63JiIWZ8sO-Hlu2XAftkd_leM-ZMIRNB3T69j2rentllch3lHn2riexc35V8tW7578a8t0Cu7WLV1Vj9ubtX53DgpmILegdYQ2GBCVqX72moqprIe02wWEze_GqOhs"/>
+</div>
+</header>
+<!-- Top Level Grid: Bento Style -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Profile Overview Card (Asymmetric) -->
+<section class="col-span-12 md:col-span-4 space-y-6">
+<div class="bg-white p-8 rounded-xl shadow-[0px_24px_48px_rgba(26,28,30,0.06)] relative overflow-hidden">
+<div class="flex justify-between items-start mb-12">
+<div class="space-y-1">
+<span class="font-label text-[0.65rem] uppercase tracking-widest text-slate-400">Total Rating</span>
+<div class="flex items-center gap-2">
+<span class="text-4xl font-headline font-bold text-primary">4.98</span>
+<span class="material-symbols-outlined text-tertiary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label text-[0.6rem] uppercase tracking-wider">Top Pro</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-sm font-body">
+<span class="text-slate-500">Client Satisfaction</span>
+<span class="font-semibold">99%</span>
+</div>
+<div class="w-full bg-surface-container-low h-1 rounded-full overflow-hidden">
+<div class="bg-primary w-[99%] h-full"></div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-surface-container-low">
+<p class="font-body text-sm italic text-slate-600 leading-relaxed">
+                            "Elias has an incredible eye for spatial geometry. His work on the Zenith Pavilion redefined our portfolio."
+                        </p>
+<p class="mt-2 font-label text-[0.65rem] uppercase text-primary">— Sarah J., Lead Architect</p>
+</div>
+</div>
+<!-- Quick Stats -->
+<div class="bg-primary p-8 rounded-xl text-on-primary shadow-sm space-y-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="payments">payments</span>
+<div>
+<p class="font-label text-[0.65rem] uppercase opacity-70">Monthly Revenue</p>
+<h3 class="text-2xl font-headline font-bold">$12,450</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Current Projects (Main Bento Body) -->
+<section class="col-span-12 md:col-span-8 bg-surface-container-low p-10 rounded-xl">
+<div class="flex justify-between items-end mb-10">
+<h2 class="text-2xl font-headline font-semibold text-on-surface">Current Projects</h2>
+<a class="text-primary font-label text-xs uppercase tracking-widest hover:opacity-70" href="#">View All</a>
+</div>
+<div class="space-y-8">
+<!-- Project Item -->
+<div class="group flex items-center gap-6 p-2 rounded-xl hover:bg-white/50 transition-all duration-300">
+<img alt="Modern Architecture" class="w-24 h-24 rounded-xl object-cover" data-alt="modern brutalist concrete architecture with large glass windows at twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9EY6zuGsn0Pc2EOvN07QVFCAg_Nzw8fOA52p31_pfZtWr8mebn0_pcIK7IDcO6BBz1g55VwlM7f4AEaFEovLhW4JFXuNL66BtMFW__88Ivlb2NDJAjZn73vRmWrvmVU9sXEki0-cWSJyD1j0TUb8dloHmgcBhMZrlllrUrrG8zha7qOZ38JOb6Iucw_aIhl7_Rqc42w7YPVMWia1gEw1cLeKtLEw6DGYHjUiWawhzqCN3cQZapTpPOvNM373cOeJWvwrHzMgPCnM"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-headline font-bold text-lg">The Glass Atrium</h4>
+<p class="font-body text-xs text-slate-500">Residential • London, UK</p>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full font-label text-[0.65rem] uppercase font-bold">In Progress</span>
+</div>
+<p class="font-body text-sm text-slate-600 line-clamp-1">Twilight photography session and post-production editing for architectural review.</p>
+</div>
+</div>
+<!-- Project Item -->
+<div class="group flex items-center gap-6 p-2 rounded-xl hover:bg-white/50 transition-all duration-300">
+<img alt="Interior Design" class="w-24 h-24 rounded-xl object-cover" data-alt="luxury minimalist living room with white marble floors and floor to ceiling windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBukiuA7i9yP-irN3DN9YENHyK7GM_JXDPJIBL4MaNlm7MBvm8bmXxw43cRIKrd02uFoxpmP_-XJ813bQx6KT5shy9koA_7vya1q9Xes9bLwTL-NCzlhjQtM8DtydYx1g7ZHn3fzoYOwQwjliZMmD8rExUQY2gK5YxKxdbFK8Oy7nSbK5omMBOF05qRBhMt7b1KPjsd1gWGdkGSI62JQJBo85pv53Gx5V6vBoHmz48hrhDzdaf-sE7aUay51_O9587InMAmuNtELCo"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-headline font-bold text-lg">Marble Residence Interior</h4>
+<p class="font-body text-xs text-slate-500">Commercial • Milan, Italy</p>
+</div>
+<span class="bg-primary text-on-primary px-4 py-1.5 rounded-full font-label text-[0.65rem] uppercase font-bold">Review</span>
+</div>
+<p class="font-body text-sm text-slate-600 line-clamp-1">Awaiting client selection on final high-resolution assets for publication.</p>
+</div>
+</div>
+<!-- Project Item -->
+<div class="group flex items-center gap-6 p-2 rounded-xl hover:bg-white/50 transition-all duration-300">
+<img alt="Skyscraper Office" class="w-24 h-24 rounded-xl object-cover" data-alt="low angle view of a corporate glass skyscraper reflecting a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5nJfTgYTsMQ_mlOJ-dnDl2rrPmFrWmmysoqnbKQYrSPnKOhSqVj0QHTnqRyxl7C0EIJ2JDGB0cUsGCeYMi4clWA6CM7uoxRRvIJXmFThg6eOOfk_ct9nrA3iXl_9JjxTZkAIVhIf3aZ2Kbdd-Y0Yr3fU73V2mkgy-KbY2Sp5yVCZxIwIcuEdZ5F7AdQMrvy_P2KVNPlMc2IMJuhhK7rqHhrAMAK0u6got89Nk-r8yEDgjWZ1lh6olI1YlFhzSUJCBA96Jr9jhyV8"/>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-headline font-bold text-lg">Skyline Corporate Hub</h4>
+<p class="font-body text-xs text-slate-500">Servify • New York, USA</p>
+</div>
+<span class="bg-surface-container-highest text-slate-500 px-4 py-1.5 rounded-full font-label text-[0.65rem] uppercase font-bold">Completed</span>
+</div>
+<p class="font-body text-sm text-slate-600 line-clamp-1">Full servify suite delivered. Featured in Architectural Digest Feb Issue.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- New Requests (Third Column/Bottom Span) -->
+<section class="col-span-12">
+<div class="bg-white p-10 rounded-xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center gap-3 mb-10">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+<h2 class="text-2xl font-headline font-semibold">New Requests</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Request Card -->
+<div class="bg-surface-container-low p-6 rounded-xl relative hover:translate-y-[-4px] transition-transform duration-300">
+<div class="absolute top-6 right-6">
+<span class="w-2 h-2 bg-error rounded-full block"></span>
+</div>
+<span class="font-label text-[0.6rem] uppercase tracking-widest text-slate-400 mb-2 block">Inquiry 12h ago</span>
+<h5 class="font-headline font-bold text-lg mb-1">Museum Extension</h5>
+<p class="text-sm text-slate-500 mb-6">Bern, Switzerland • Aug 2024</p>
+<div class="flex items-center justify-between">
+<span class="font-headline font-bold text-primary">$4,200 Est.</span>
+<button class="text-primary text-xs font-label uppercase underline hover:no-underline">Details</button>
+</div>
+</div>
+<!-- Request Card -->
+<div class="bg-surface-container-low p-6 rounded-xl hover:translate-y-[-4px] transition-transform duration-300">
+<span class="font-label text-[0.6rem] uppercase tracking-widest text-slate-400 mb-2 block">Inquiry 2d ago</span>
+<h5 class="font-headline font-bold text-lg mb-1">The Loft Series</h5>
+<p class="text-sm text-slate-500 mb-6">Berlin, DE • Sept 2024</p>
+<div class="flex items-center justify-between">
+<span class="font-headline font-bold text-primary">$2,800 Est.</span>
+<button class="text-primary text-xs font-label uppercase underline hover:no-underline">Details</button>
+</div>
+</div>
+<!-- Request Card -->
+<div class="bg-surface-container-low p-6 rounded-xl hover:translate-y-[-4px] transition-transform duration-300">
+<span class="font-label text-[0.6rem] uppercase tracking-widest text-slate-400 mb-2 block">Inquiry 3d ago</span>
+<h5 class="font-headline font-bold text-lg mb-1">Coastal Villa Retrospective</h5>
+<p class="text-sm text-slate-500 mb-6">Ibiza, ES • Oct 2024</p>
+<div class="flex items-center justify-between">
+<span class="font-headline font-bold text-primary">$7,500 Est.</span>
+<button class="text-primary text-xs font-label uppercase underline hover:no-underline">Details</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="fixed bottom-0 left-64 right-0 bg-[#dadadc] dark:bg-slate-950 py-4 px-8 flex justify-between items-center z-40">
+<div class="flex gap-8 items-center">
+<span class="font-headline font-bold text-primary text-lg">Servify</span>
+<div class="flex gap-6">
+<a class="font-label text-[0.7rem] uppercase tracking-widest text-slate-600 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-label text-[0.7rem] uppercase tracking-widest text-slate-600 hover:text-primary transition-colors" href="#">Support Center</a>
+</div>
+</div>
+<p class="font-body text-[0.7rem] text-slate-600">© 2024 Servify. All rights reserved.</p>
+</footer>
+</body></html>

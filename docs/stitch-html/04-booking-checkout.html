@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking &amp; Checkout | Servify</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb68f",
+                    "surface-container-low": "#f3f3f6",
+                    "surface-bright": "#f9f9fc",
+                    "on-secondary-fixed": "#022020",
+                    "on-secondary-fixed-variant": "#304b4c",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1a1c1e",
+                    "primary": "#004d4f",
+                    "on-primary-fixed": "#002021",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#c7e5e6",
+                    "surface-dim": "#dadadc",
+                    "outline-variant": "#bec9c8",
+                    "background": "#f9f9fc",
+                    "on-tertiary-fixed-variant": "#6e3818",
+                    "on-primary-fixed-variant": "#004f51",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface": "#f9f9fc",
+                    "tertiary-fixed": "#ffdbca",
+                    "tertiary": "#6b3616",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-tint": "#06696b",
+                    "primary-fixed": "#a2f0f2",
+                    "surface-variant": "#e2e2e5",
+                    "inverse-primary": "#86d3d5",
+                    "on-primary-container": "#94e2e4",
+                    "on-surface-variant": "#3f4949",
+                    "on-tertiary-fixed": "#331100",
+                    "surface-container": "#eeeef0",
+                    "surface-container-highest": "#e2e2e5",
+                    "inverse-on-surface": "#f0f0f3",
+                    "on-tertiary-container": "#ffcaaf",
+                    "secondary-fixed-dim": "#aecccc",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#cae8e8",
+                    "outline": "#6f7979",
+                    "primary-fixed-dim": "#86d3d5",
+                    "on-surface": "#1a1c1e",
+                    "on-secondary-container": "#4c6868",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#006769",
+                    "secondary": "#486364",
+                    "tertiary-container": "#884d2b",
+                    "inverse-surface": "#2f3133"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Inter', sans-serif; }
+      h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- Top Navigation Shell (Suppressed items based on checkout context) -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9fc]/80 backdrop-blur-xl shadow-sm px-8 py-4 flex justify-between items-center">
+<div class="text-2xl font-bold tracking-tight text-primary">Servify</div>
+<div class="hidden md:flex gap-8">
+<a class="text-slate-500 hover:text-primary transition-all duration-300" href="#">Browse Services</a>
+<a class="text-slate-500 hover:text-primary transition-all duration-300" href="#">How It Works</a>
+<a class="text-slate-500 hover:text-primary transition-all duration-300" href="#">Portfolio</a>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2 rounded-lg bg-secondary-container text-on-secondary-container font-medium hover:bg-secondary/10 transition-colors">Log In</button>
+</div>
+</nav>
+<main class="flex-grow pt-32 pb-24 px-8 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left Column: Scheduler & Service Details -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Step 1 Header -->
+<section>
+<span class="text-xs font-semibold uppercase tracking-widest text-primary/60 mb-2 block">Step 01</span>
+<h1 class="text-4xl font-bold text-on-surface mb-4">Select Date &amp; Time</h1>
+<p class="text-lg text-slate-500 max-w-2xl leading-relaxed">Choose a slot that works best for your consultation. All sessions are conducted via secure high-fidelity video conferencing.</p>
+</section>
+<!-- Calendar Bento Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Date Picker Card -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-semibold">November 2024</h3>
+<div class="flex gap-2">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-2 text-center text-sm mb-4">
+<div class="text-slate-400 font-medium">S</div>
+<div class="text-slate-400 font-medium">M</div>
+<div class="text-slate-400 font-medium">T</div>
+<div class="text-slate-400 font-medium">W</div>
+<div class="text-slate-400 font-medium">T</div>
+<div class="text-slate-400 font-medium">F</div>
+<div class="text-slate-400 font-medium">S</div>
+</div>
+<div class="grid grid-cols-7 gap-2">
+<!-- Placeholder Calendar Days -->
+<div class="p-4 text-slate-300">27</div>
+<div class="p-4 text-slate-300">28</div>
+<div class="p-4 text-slate-300">29</div>
+<div class="p-4 text-slate-300">30</div>
+<div class="p-4 text-slate-300">31</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">1</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">2</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">3</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">4</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">5</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">6</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">7</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">8</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">9</div>
+<div class="p-4 bg-primary text-on-primary rounded-lg font-semibold shadow-md relative">10</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">11</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">12</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">13</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">14</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">15</div>
+<div class="p-4 cursor-pointer hover:bg-surface-container-low rounded-lg transition-colors font-medium">16</div>
+</div>
+</div>
+<!-- Time Slot Card -->
+<div class="bg-surface-container-low rounded-xl p-8 flex flex-col">
+<h3 class="text-xl font-semibold mb-6">Available Slots</h3>
+<div class="space-y-3 overflow-y-auto max-h-[300px] pr-2">
+<button class="w-full py-4 px-6 rounded-xl border border-transparent bg-surface-container-lowest text-primary font-medium hover:border-primary/20 transition-all text-left flex justify-between items-center group">
+                            09:00 AM
+                            <span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">check_circle</span>
+</button>
+<button class="w-full py-4 px-6 rounded-xl border border-primary bg-primary/5 text-primary font-bold transition-all text-left flex justify-between items-center">
+                            11:30 AM
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-full py-4 px-6 rounded-xl border border-transparent bg-surface-container-lowest text-primary font-medium hover:border-primary/20 transition-all text-left flex justify-between items-center group">
+                            02:00 PM
+                            <span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">check_circle</span>
+</button>
+<button class="w-full py-4 px-6 rounded-xl border border-transparent bg-surface-container-lowest text-primary font-medium hover:border-primary/20 transition-all text-left flex justify-between items-center group">
+                            04:30 PM
+                            <span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">check_circle</span>
+</button>
+</div>
+<p class="mt-auto pt-6 text-xs text-slate-500 uppercase tracking-widest">Times shown in your local zone (GMT -5)</p>
+</div>
+</div>
+<!-- Professional Summary Mini-Bento -->
+<div class="bg-surface-container-low rounded-xl p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16"></div>
+<div class="w-24 h-24 rounded-full overflow-hidden flex-shrink-0 border-4 border-white shadow-lg">
+<img class="w-full h-full object-cover" data-alt="portrait of a professional creative consultant with a warm smile in a sunlit architectural studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4OeuUfk3HIlIkqxMtEFRXEr8Hhn19PDNWKhREgKpxb2qP4y0noh7ZPHuTkG89sOqDu6SW6ZGmAtJ5iYbC5xEDB07N1ehbhQMKZLTZYcPOPNgV8m8guoKoLZ4KNaAR4UweR41L40ThCCHa_5hNYwTrWIih4xaJlSqJbofen42dkfirOMEjx1DB40FA2V3W09w2YPxsy-Ku-OtIblVF56oFJMP2X70iL73Paoj8Aajsk9L5JO0RnXmRUFFnP7ThQMnaE-uxT6wo_Fc"/>
+</div>
+<div class="flex-grow text-center md:text-left">
+<div class="flex items-center justify-center md:justify-start gap-2 mb-1">
+<h4 class="text-xl font-bold">Julian Vane</h4>
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter">Verified Pro</span>
+</div>
+<p class="text-slate-600 mb-4">Senior Architectural Photographer &amp; Curator</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-6 text-sm text-slate-500">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">star</span> 4.9 (124 reviews)</span>
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">schedule</span> 1h session</span>
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">language</span> English, French</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Sidebar Checkout -->
+<aside class="lg:col-span-4 h-fit sticky top-32">
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-xl shadow-on-surface/5 space-y-8">
+<div>
+<h2 class="text-2xl font-bold mb-6">Booking Summary</h2>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Service</span>
+<span class="font-medium text-on-surface">Curated Servify Session</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Date</span>
+<span class="font-medium text-on-surface">Nov 10, 2024</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Time</span>
+<span class="font-medium text-on-surface">11:30 AM</span>
+</div>
+</div>
+</div>
+<!-- Price Breakdown (No dividers rule) -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-3">
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Base Rate</span>
+<span class="font-medium">$185.00</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Platform Fee</span>
+<span class="font-medium">$12.50</span>
+</div>
+<div class="flex justify-between items-center pt-4 text-lg font-bold border-t border-outline-variant/10">
+<span>Total Due</span>
+<span class="text-primary">$197.50</span>
+</div>
+</div>
+<!-- Minimalist Form -->
+<div class="space-y-6">
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-primary/60 mb-2">Payment Details</label>
+<div class="space-y-3">
+<div class="relative">
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="Cardholder Name" type="text"/>
+</div>
+<div class="relative">
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="Card Number" type="text"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1 opacity-40">
+<span class="material-symbols-outlined text-lg">credit_card</span>
+</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="MM/YY" type="text"/>
+<input class="w-full bg-surface-container-highest border-none rounded-lg px-4 py-3 text-sm focus:ring-1 focus:ring-primary focus:bg-white transition-all outline-none" placeholder="CVC" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-white rounded-xl font-bold text-lg hover:bg-primary-container transition-all active:scale-[0.98] shadow-lg shadow-primary/20">
+                    Confirm &amp; Pay
+                </button>
+<p class="text-[10px] text-center text-slate-400 px-4 leading-relaxed">
+                    By clicking Confirm &amp; Pay, you agree to Servify's <a class="underline" href="#">Terms of Service</a> and <a class="underline" href="#">Cancellation Policy</a>.
+                </p>
+</div>
+</aside>
+</main>
+<!-- Footer Shell -->
+<footer class="bg-surface-dim w-full py-16 px-8">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-6">
+<div class="text-xl font-bold text-primary">Servify</div>
+<p class="text-sm text-slate-600 max-w-xs leading-relaxed">Curating professional excellence through architectural design and intentional connections.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+<div class="space-y-4">
+<h5 class="text-xs font-bold uppercase tracking-widest text-primary">Platform</h5>
+<ul class="space-y-2 text-sm text-slate-600">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-xs font-bold uppercase tracking-widest text-primary">Resources</h5>
+<ul class="space-y-2 text-sm text-slate-600">
+<li><a class="hover:text-primary transition-colors" href="#">Support Center</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-300 text-xs text-slate-500">
+            © 2024 Servify. All rights reserved.
+        </div>
+</footer>
+</body></html>

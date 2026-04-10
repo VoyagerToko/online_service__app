@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     APP_ENV: Literal["development", "staging", "production"] = "development"
     DEBUG: bool = True
     FRONTEND_URL: str = "http://localhost:3000"
+    CORS_ORIGINS: str = ""
+    AUTO_CREATE_TABLES: bool = True
 
     # Database
     DATABASE_URL: str

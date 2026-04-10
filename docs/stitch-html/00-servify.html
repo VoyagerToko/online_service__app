@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servify | Premium Professional Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#6e3818",
+                    "on-primary-container": "#94e2e4",
+                    "on-tertiary-container": "#ffcaaf",
+                    "tertiary-fixed": "#ffdbca",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e8e8ea",
+                    "surface-container": "#eeeef0",
+                    "on-surface-variant": "#3f4949",
+                    "surface-variant": "#e2e2e5",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed": "#022020",
+                    "primary-fixed": "#a2f0f2",
+                    "secondary-fixed": "#cae8e8",
+                    "tertiary-fixed-dim": "#ffb68f",
+                    "on-secondary-container": "#4c6868",
+                    "on-primary-fixed": "#002021",
+                    "surface-tint": "#06696b",
+                    "tertiary-container": "#884d2b",
+                    "surface-dim": "#dadadc",
+                    "primary-container": "#006769",
+                    "inverse-surface": "#2f3133",
+                    "surface-bright": "#f9f9fc",
+                    "on-primary-fixed-variant": "#004f51",
+                    "on-error": "#ffffff",
+                    "outline": "#6f7979",
+                    "on-tertiary": "#ffffff",
+                    "secondary-container": "#c7e5e6",
+                    "surface": "#f9f9fc",
+                    "surface-container-highest": "#e2e2e5",
+                    "secondary": "#486364",
+                    "on-secondary": "#ffffff",
+                    "background": "#f9f9fc",
+                    "on-tertiary-fixed": "#331100",
+                    "outline-variant": "#bec9c8",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#86d3d5",
+                    "surface-container-low": "#f3f3f6",
+                    "on-secondary-fixed-variant": "#304b4c",
+                    "tertiary": "#6b3616",
+                    "inverse-on-surface": "#f0f0f3",
+                    "primary": "#004d4f",
+                    "secondary-fixed-dim": "#aecccc",
+                    "on-surface": "#1a1c1e",
+                    "on-background": "#1a1c1e",
+                    "inverse-primary": "#86d3d5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .servify-shadow {
+            box-shadow: 0px 24px 48px rgba(26, 28, 30, 0.06);
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed-dim selection:text-on-primary-fixed">
+<!-- TopNavBar Shell -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9fc]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-tight text-[#004d4f] dark:text-[#f9f9fc]">Servify</span>
+<div class="hidden lg:flex items-center space-x-8">
+<a class="text-[#004d4f] dark:text-[#c7e5e6] border-b-2 border-[#004d4f] pb-1 font-medium transition-all duration-300" href="#">Browse Services</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#004d4f] font-medium transition-all duration-300" href="#">How It Works</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#004d4f] font-medium transition-all duration-300" href="#">Portfolio</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center bg-surface-container-highest px-4 py-2 rounded-lg gap-3">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-on-surface placeholder:text-outline" placeholder="Search professionals..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-600 dark:text-slate-400 hover:text-[#004d4f] transition-all duration-300 font-semibold px-4 py-2">Log In</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-semibold hover:translate-y-[-1px] transition-transform active:scale-95 servify-shadow">Become a Pro</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-24">
+<!-- Hero Section: Architectural Layering -->
+<section class="relative px-8 py-32 overflow-hidden">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
+<div class="lg:w-1/2 space-y-8">
+<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container text-xs font-bold tracking-widest uppercase">
+                        Curated Excellence
+                    </div>
+<h1 class="text-5xl lg:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.1]">
+                        The <span class="text-primary italic">Architectural</span> Curator for Every Professional Need.
+                    </h1>
+<p class="text-xl text-on-surface-variant max-w-xl leading-relaxed">
+                        Access an elite network of vetted experts across creative, technical, and strategic domains. We bridge the gap between vision and execution.
+                    </p>
+<!-- Search Injection -->
+<div class="bg-surface-container-lowest p-2 rounded-xl servify-shadow flex flex-col md:flex-row gap-2 max-w-2xl border border-outline-variant/10">
+<div class="flex-1 flex items-center px-4 gap-3 bg-surface-container-low rounded-lg py-4">
+<span class="material-symbols-outlined text-primary" data-icon="handyman">handyman</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-medium" placeholder="What service do you need?" type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-10 py-4 rounded-lg font-bold text-lg hover:bg-primary-container transition-colors">
+                            Find Experts
+                        </button>
+</div>
+</div>
+<div class="lg:w-1/2 relative">
+<div class="relative w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden servify-shadow group">
+<img alt="Professional working in minimalist office" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700" data-alt="Modern professional office with floor-to-ceiling windows at sunset, featuring a sleek walnut desk and minimal architectural details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmNkE8oBHI1ZAmqg8eIdS_hEux0UnKEz_b1UW_DnzBMg8uXqkBJYfCnLRk3EpZUwD3Oaya4Oq5GSfMnFnggRAehia-j0ZgBHoe6RcJsgIootsVBgMDG5NxtBxH0FZlAxOySBbHSxgSciYMbLc9K4VYC1pP0M-1gv-4j2xsBU_We_1KIpgDdkJYM35paUEb-By9CqK3IQ_uzH7_ff-yH3f-QDfcLFEHRDysVS-AwVewFJO43FleRA26mOdCBx7CvWOn_3D2sdfJpv0"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/40 to-transparent"></div>
+</div>
+<!-- Overlapping Architectural Card -->
+<div class="absolute -bottom-12 -left-12 bg-white p-8 rounded-2xl servify-shadow max-w-[280px] hidden xl:block">
+<div class="flex gap-4 items-start">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="verified" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Vetted Network</p>
+<p class="text-xs text-on-surface-variant mt-1">Top 2% of industry leaders across all categories.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Abstract Background Shapes -->
+<div class="absolute top-0 right-0 w-1/3 h-full bg-surface-container-low -z-10 rounded-l-[10rem]"></div>
+</section>
+<!-- Featured Services: Asymmetrical Masonry -->
+<section class="bg-surface-container-low py-32 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20 space-y-4">
+<h2 class="text-4xl font-bold tracking-tight text-on-surface">Curated Categories</h2>
+<p class="text-on-surface-variant text-lg">Masterfully selected professionals for high-impact results.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Large Card -->
+<div class="md:col-span-8 group cursor-pointer">
+<div class="relative h-[480px] rounded-[2rem] overflow-hidden transition-all duration-500">
+<img alt="Interior Design" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" data-alt="High-end minimalist living room with beige linen sofa, marble fireplace, and large architectural windows overlooking a garden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN5IewrPkary4mu2AmoJNZI5hY_s04tHy6oBT91dpBhJ3FQa9R09rtUNq2XknDVYLrpMTUy4yw49ITOEMQ8_YrCD4sDPDBIXptO95RL7cOm1LcHh2EZD1OpTGVcR25S4iH4_JZM5UdfRdT6pIg1v2tIq0mlr0r0OUvK6zpIEm7Hckzs_vhPml5COHs-EvhEdQyrWk46Ijz4jaBruD5qmbKpkTCKOqh2O5nYyGAeWIdxGXgR1jWxq64ClWDWqrziv1DC6eeJRYXkXU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-on-surface/20 to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-white">
+<span class="text-xs font-bold uppercase tracking-widest text-secondary-fixed mb-2 block">Lifestyle Architecture</span>
+<h3 class="text-3xl font-bold">Interior Design</h3>
+<p class="mt-2 text-white/80 max-w-sm">From residential sanctuaries to high-performance workspaces.</p>
+</div>
+</div>
+</div>
+<!-- Small Cards Column -->
+<div class="md:col-span-4 flex flex-col gap-8">
+<div class="bg-surface-container-lowest p-10 rounded-[2rem] h-full flex flex-col justify-between servify-shadow hover:translate-y-[-8px] transition-transform group">
+<div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary text-3xl" data-icon="gavel">gavel</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-on-surface mb-2">Legal Consultation</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Strategic council for intellectual property, corporate structuring, and private equity.</p>
+</div>
+<a class="mt-6 flex items-center gap-2 font-bold text-primary text-sm group-hover:translate-x-2 transition-transform" href="#">
+                                Explore Legal <span class="material-symbols-outlined text-lg" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="md:col-span-4 group cursor-pointer">
+<div class="relative h-[400px] rounded-[2rem] overflow-hidden">
+<img alt="Software Development" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" data-alt="Extreme close up of elegant dark computer code on a high resolution display with soft blue and green ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFyocF8jqzIY9bEz-TICVEuJsGhX243aqsqXMAhCfDZIfbgZe_0H_-7EDatHyL3YUeiTZGoFxdbiMgumpiyziDyTqiSJgqh0yYPA6fSziUwj5x8uiDbeY-wAXU-tvGCpDmx_SXN-PpbBuhYcqW_jiNVhvY6VoU-FqIZ-mEfJCZ2MOCZb9zraoPFe-jJt-hFr40MI9Lj-LGj4AQjoWakFnoqJT47_XjoU0xlHcsXq-kW2ui_NYhLoxa_ZxK_F_q_DDaL605GWMqKj4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/90 to-transparent"></div>
+<div class="absolute bottom-8 left-8 text-white">
+<h3 class="text-xl font-bold">Software Development</h3>
+<p class="text-sm text-white/70">Custom enterprise solutions &amp; platforms.</p>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 flex flex-col gap-8">
+<div class="bg-[#004d4f] p-10 rounded-[2rem] h-full text-white flex flex-col justify-center text-center">
+<h3 class="text-xl font-bold mb-4">Need something bespoke?</h3>
+<p class="text-primary-fixed text-sm mb-8">Our concierge team can find the exact match for non-standard requests.</p>
+<button class="border border-primary-fixed/30 py-3 rounded-xl hover:bg-primary-container transition-colors">Contact Concierge</button>
+</div>
+</div>
+<div class="md:col-span-4 group cursor-pointer">
+<div class="relative h-[400px] rounded-[2rem] overflow-hidden">
+<img alt="Brand Strategy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" data-alt="Overhead view of minimalist brand strategy meeting with mood boards, high-end stationary, and coffee on a clean light oak table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC98MQmz2nOC3raPJj4BtMBXZtd7qE9SXPs4SEFmMF9Cshxms6JRHUn9mcMOtgZ9gOToq2FmSdTuPOP755vv4aTQ-Df_9hS5L7DHKP1jsLv5cjGkSVbfqdwypt_zluqNRVKhQLcH-l1MNEgs_RcwPB851Qtky8cXQcKQfIHq4WlR5Vj1t-hPLz1vQl2QPsnNgDykiATtLD8NCdR6Tbqa5S2qb4JU7KeDJVrIsb1PGyOG-FrxorCr4-7WIIHq7UGMY58EEKX6yns3_k"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/90 to-transparent"></div>
+<div class="absolute bottom-8 left-8 text-white">
+<h3 class="text-xl font-bold">Brand Identity</h3>
+<p class="text-sm text-white/70">Visual narratives for modern leaders.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works: Macro Spacing -->
+<section class="py-32 px-8 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-24 max-w-3xl mx-auto">
+<span class="text-primary font-bold tracking-[0.2em] uppercase text-sm">The Process</span>
+<h2 class="text-5xl font-bold tracking-tight text-on-surface mt-4 leading-tight">A Frictionless Bridge to Expertise.</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-20">
+<div class="relative group">
+<div class="text-[8rem] font-black text-surface-container-high absolute -top-24 -left-8 -z-10 group-hover:text-primary-fixed/50 transition-colors">01</div>
+<div class="space-y-6">
+<div class="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="edit_note">edit_note</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface">Curate Your Brief</h3>
+<p class="text-on-surface-variant leading-relaxed">Define your requirements with our architectural briefing tool. We focus on outcome-based specifications to ensure precision.</p>
+</div>
+</div>
+<div class="relative group">
+<div class="text-[8rem] font-black text-surface-container-high absolute -top-24 -left-8 -z-10 group-hover:text-primary-fixed/50 transition-colors">02</div>
+<div class="space-y-6">
+<div class="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="search_insights">search_insights</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface">Select Your Pro</h3>
+<p class="text-on-surface-variant leading-relaxed">Review a hand-picked shortlist of vetted experts. View their servify portfolios and verified performance metrics.</p>
+</div>
+</div>
+<div class="relative group">
+<div class="text-[8rem] font-black text-surface-container-high absolute -top-24 -left-8 -z-10 group-hover:text-primary-fixed/50 transition-colors">03</div>
+<div class="space-y-6">
+<div class="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface">Execute &amp; Refine</h3>
+<p class="text-on-surface-variant leading-relaxed">Collaborate through our integrated workflow tools. We manage the administrative layers so you can focus on the results.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials/Trust Section -->
+<section class="py-32 px-8 bg-surface-container-low/50">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="space-y-12">
+<h2 class="text-4xl font-bold text-on-surface tracking-tight">Trusted by Industry Authorities</h2>
+<div class="grid grid-cols-2 gap-x-12 gap-y-16 opacity-50 grayscale hover:grayscale-0 transition-all">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl" data-icon="stat_3">stat_3</span>
+<span class="font-black text-xl tracking-tighter">VOGUE</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl" data-icon="architecture">architecture</span>
+<span class="font-black text-xl tracking-tighter">DESIGN CO.</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl" data-icon="business_center">business_center</span>
+<span class="font-black text-xl tracking-tighter">FORBES</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl" data-icon="diamond">diamond</span>
+<span class="font-black text-xl tracking-tighter">LUXE</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-12 rounded-[2.5rem] servify-shadow relative">
+<span class="material-symbols-outlined text-primary-fixed-dim text-6xl absolute -top-6 -left-6" data-icon="format_quote">format_quote</span>
+<div class="space-y-8">
+<p class="text-2xl font-medium leading-relaxed italic text-on-surface">
+                                "Servify transformed how we source talent for our flagship projects. It's not a marketplace; it's a premium extension of our own hiring team."
+                            </p>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="User testimonial" class="w-full h-full object-cover" data-alt="Portrait of a sophisticated executive man with gray hair and glasses, smiling confidently against a soft neutral studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzDZxF1R45j_2vtNZr1RQIU4CCubb2PAEayWZyYuyp6CIIuFQc9SP3tj-6nMhlHFVTJIsn7qf9qjPVVDvLTtGy_lDyGFRv9b0Gbl4LrErpzEf99iRxHwEiLL7sgzGSd9ErgZcv9Ctk6qNwl4pZ4deImMxSI0tk-Y1qZvhXSqjrpfTdHpnYLYTkQeJwMaX_MrwL62sFR-Hb6TiB69suwTzjcKorMDqhxJi8T2VXKpb5DhpgKcyc9r6NvVJunPphj2AimYKdSvqgshs"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Marcus Sterling</p>
+<p class="text-sm text-on-surface-variant">Creative Director, Sterling &amp; Co.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-32 px-8">
+<div class="max-w-7xl mx-auto rounded-[3rem] bg-primary relative overflow-hidden flex flex-col items-center text-center p-20">
+<div class="absolute inset-0 opacity-10" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDt6UfkIc7e-Dy8-RNGvnsBRy4zAlpJxeNQVKGVi6cR6iMHS1mm_395J1-J9xn2mOMnwM0j-VcnaFsGQlXm2MsWvtL8ZsOx4BVzDqu6ZVRhBJIWmsC-EarwOZ3RxyEY3oH0lyr-giESzzkTo6UihIberzSpPwW5nNGfI1ZrtzgogeUqa0RFTPCkbx5YhgvZyk5vvGJxSzOA9vq931AUqnFmmdoxxoMM9RFrNWk9u2XQN6iqMgho08M_-9u-OusDioVac3yvvB981xc');"></div>
+<div class="relative z-10 space-y-8 max-w-2xl">
+<h2 class="text-4xl md:text-5xl font-bold text-on-primary">Ready to Elevate Your Standards?</h2>
+<p class="text-primary-fixed text-lg">Join the world's most sophisticated network of professional services today.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-surface-container-lowest text-primary px-10 py-4 rounded-xl font-bold text-lg hover:bg-secondary-container transition-colors shadow-xl">Get Started Now</button>
+<button class="border border-on-primary/30 text-on-primary px-10 py-4 rounded-xl font-bold text-lg hover:bg-on-primary/10 transition-colors">Browse the Gallery</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="bg-[#dadadc] dark:bg-slate-950 w-full py-16 px-8 mt-auto">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-6 max-w-sm">
+<span class="text-xl font-bold text-[#004d4f]">Servify</span>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    An architectural approach to professional connection. Elevating the standard of curated services globally.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white/50 flex items-center justify-center hover:bg-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="share">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/50 flex items-center justify-center hover:bg-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="public">public</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div class="space-y-4">
+<p class="font-bold text-[#004d4f] text-sm uppercase tracking-widest">Platform</p>
+<nav class="flex flex-col gap-2">
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Browse Services</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">How It Works</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Professional Signup</a>
+</nav>
+</div>
+<div class="space-y-4">
+<p class="font-bold text-[#004d4f] text-sm uppercase tracking-widest">Company</p>
+<nav class="flex flex-col gap-2">
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">About Us</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Press &amp; Media</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Careers</a>
+</nav>
+</div>
+<div class="space-y-4">
+<p class="font-bold text-[#004d4f] text-sm uppercase tracking-widest">Support</p>
+<nav class="flex flex-col gap-2">
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Support Center</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Contact Us</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-[#006769] transition-colors text-sm" href="#">Help Desk</a>
+</nav>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto pt-16 border-t border-black/5 mt-16 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-slate-600 dark:text-slate-400 text-sm">© 2024 Servify. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="text-slate-600 dark:text-slate-400 text-xs hover:underline" href="#">Privacy Policy</a>
+<a class="text-slate-600 dark:text-slate-400 text-xs hover:underline" href="#">Terms of Service</a>
+<a class="text-slate-600 dark:text-slate-400 text-xs hover:underline" href="#">Cookie Policy</a>
+</div>
+</div>
+</footer>
+</body></html>

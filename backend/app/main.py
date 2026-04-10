@@ -16,6 +16,7 @@ from loguru import logger
 
 from app.config import settings
 from app.database import create_tables
+import app.models.models_init  # noqa: F401
 
 # ─── Routers ───────────────────────────────────────────────────────────────────
 from app.routers.auth import router as auth_router
@@ -27,13 +28,14 @@ from app.routers.disputes import router as disputes_router
 from app.routers.admin import router as admin_router
 from app.routers.tracking import router as tracking_router
 from app.routers.notifications import router as notifications_router
+from app.routers.messages import router as messages_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("🚀 Servify API starting up...")
-    # Auto-create tables in dev (use Alembic migrations in production)
-    if settings.APP_ENV == "development":
+    # Bootstrap tables on first deploy when migrations are not configured yet.
+    if settings.AUTO_CREATE_TABLES:
         await create_tables()
         logger.info("✅ Database tables ready")
     # Ensure upload directory exists
@@ -64,9 +66,17 @@ app.state.limiter = limiter
 
 app.add_middleware(SlowAPIMiddleware)
 
+cors_origins = [
+    origin.strip()
+    for origin in [settings.FRONTEND_URL, *settings.CORS_ORIGINS.split(","), "http://localhost:3000", "http://localhost:5173"]
+    if origin and origin.strip()
+]
+# Remove duplicates while preserving order.
+cors_origins = list(dict.fromkeys(cors_origins))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL, "http://localhost:3000", "http://localhost:5173"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -115,6 +125,7 @@ app.include_router(disputes_router, prefix=API_PREFIX)
 app.include_router(admin_router, prefix=API_PREFIX)
 app.include_router(tracking_router, prefix=API_PREFIX)
 app.include_router(notifications_router, prefix=API_PREFIX)
+app.include_router(messages_router, prefix=API_PREFIX)
 
 
 # ─── Health check ──────────────────────────────────────────────────────────────

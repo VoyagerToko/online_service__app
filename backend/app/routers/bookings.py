@@ -39,13 +39,30 @@ async def get_price_quote(body: PriceQuoteRequest, db: DbSession):
 async def create_booking(body: BookingCreate, db: DbSession, current_user: CurrentUser):
     """Create a new booking. service_id is optional for direct-professional bookings."""
     if body.service_id:
-        service = await db.scalar(select(Service).where(Service.id == body.service_id, Service.is_active == True))
+        service = await db.scalar(select(Service).where(Service.id == body.service_id, Service.is_active.is_(True)))
         if not service:
             raise HTTPException(status_code=404, detail="Service not found or unavailable")
         breakdown = calculate_price(float(service.base_price), addons=body.addons)
     else:
-        # Direct professional booking — no service selected, price TBD
-        breakdown = calculate_price(0.0, addons=body.addons)
+        if not body.pro_id:
+            raise HTTPException(status_code=400, detail="Either service_id or pro_id is required")
+
+        pro = await db.scalar(
+            select(Professional)
+            .join(User, Professional.user_id == User.id)
+            .options(selectinload(Professional.public_profile))
+            .where(
+                Professional.id == body.pro_id,
+                Professional.is_suspended.is_(False),
+                User.is_active.is_(True),
+                User.is_blocked.is_(False),
+            )
+        )
+        if not pro:
+            raise HTTPException(status_code=404, detail="Professional not found")
+
+        starting_price = float(pro.starting_price)
+        breakdown = calculate_price(starting_price, addons=body.addons)
 
     booking = Booking(
         service_id=body.service_id,
@@ -87,6 +104,21 @@ async def list_bookings(db: DbSession, current_user: CurrentUser, skip: int = 0,
     q = select(Booking)
     if current_user.role == UserRole.user:
         q = q.where(Booking.user_id == current_user.id)
+
+        # Hide work that belongs to deleted/suspended professionals.
+        active_professional_ids = (
+            select(Professional.id)
+            .join(User, Professional.user_id == User.id)
+            .where(
+                Professional.is_suspended.is_(False),
+                User.is_active.is_(True),
+                User.is_blocked.is_(False),
+            )
+        )
+        q = q.where(
+            (Booking.pro_id.is_(None))
+            | (Booking.pro_id.in_(active_professional_ids))
+        )
     elif current_user.role == UserRole.professional:
         # find their pro profile
         pro = await db.scalar(select(Professional).where(Professional.user_id == current_user.id))

@@ -1,0 +1,21 @@
+{
+	"servers": {
+		"figma": {
+			"url": "https://mcp.figma.com/mcp",
+			"type": "http"
+		},
+		"component": {
+			"command": "npx",
+			"args": [
+				"@21st-dev/cli@latest",
+				"install",
+				"cline",
+				"--api-key",
+				"an_sk_b6778c02eea743699554051dc2aa2df5c016b757c4f5d7f823ab72824dd24c63"
+			],
+			"type": "stdio"
+		},
+	
+	},
+	"inputs": []
+}

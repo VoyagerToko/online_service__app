@@ -6,10 +6,12 @@ Import order matters — parent models before children.
 """
 from app.models.user import User, UserRole            # noqa: F401
 from app.models.professional import Professional      # noqa: F401
+from app.models.professional_public_profile import ProfessionalPublicProfile  # noqa: F401
 from app.models.service import Category, Service      # noqa: F401
 from app.models.booking import (                      # noqa: F401
     Booking, BookingStatus, BookingStatusTimeline,
 )
+from app.models.message import Conversation, ConversationMessage  # noqa: F401
 from app.models.payment import (                      # noqa: F401
     Payment, PaymentMethod, PaymentStatus, WalletTransaction, TransactionType,
 )

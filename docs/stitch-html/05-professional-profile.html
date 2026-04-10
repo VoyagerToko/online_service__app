@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servify - Professional Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6e3818",
+                        "on-primary-container": "#94e2e4",
+                        "on-tertiary-container": "#ffcaaf",
+                        "tertiary-fixed": "#ffdbca",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8ea",
+                        "surface-container": "#eeeef0",
+                        "on-surface-variant": "#3f4949",
+                        "surface-variant": "#e2e2e5",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#022020",
+                        "primary-fixed": "#a2f0f2",
+                        "secondary-fixed": "#cae8e8",
+                        "tertiary-fixed-dim": "#ffb68f",
+                        "on-secondary-container": "#4c6868",
+                        "on-primary-fixed": "#002021",
+                        "surface-tint": "#06696b",
+                        "tertiary-container": "#884d2b",
+                        "surface-dim": "#dadadc",
+                        "primary-container": "#006769",
+                        "inverse-surface": "#2f3133",
+                        "surface-bright": "#f9f9fc",
+                        "on-primary-fixed-variant": "#004f51",
+                        "on-error": "#ffffff",
+                        "outline": "#6f7979",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#c7e5e6",
+                        "surface": "#f9f9fc",
+                        "surface-container-highest": "#e2e2e5",
+                        "secondary": "#486364",
+                        "on-secondary": "#ffffff",
+                        "background": "#f9f9fc",
+                        "on-tertiary-fixed": "#331100",
+                        "outline-variant": "#bec9c8",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#86d3d5",
+                        "surface-container-low": "#f3f3f6",
+                        "on-secondary-fixed-variant": "#304b4c",
+                        "tertiary": "#6b3616",
+                        "inverse-on-surface": "#f0f0f3",
+                        "primary": "#004d4f",
+                        "secondary-fixed-dim": "#aecccc",
+                        "on-surface": "#1a1c1e",
+                        "on-background": "#1a1c1e",
+                        "inverse-primary": "#86d3d5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { backdrop-filter: blur(24px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9fc]/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full mx-auto">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-bold tracking-tight text-[#004d4f] dark:text-[#f9f9fc]">Servify</span>
+<div class="hidden md:flex gap-8">
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#004d4f] transition-all duration-300" href="#">Browse Services</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#004d4f] transition-all duration-300" href="#">How It Works</a>
+<a class="text-[#004d4f] dark:text-[#c7e5e6] border-b-2 border-[#004d4f] pb-1 font-semibold" href="#">Portfolio</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-500 hover:text-[#004d4f] font-medium">Log In</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-container transition-all scale-95 active:scale-95 duration-200">Become a Pro</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-32 px-8 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Left Column: Identity Anchor -->
+<aside class="lg:col-span-4 space-y-8">
+<div class="sticky top-32 space-y-8">
+<div class="relative group">
+<div class="aspect-[4/5] rounded-xl overflow-hidden bg-surface-container shadow-2xl">
+<img alt="Professional Profile" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="Stunning professional portrait of a woman in a charcoal blazer against a minimal architectural background with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1ncdVb2q1PgJPAtMdNrGK_QbGnK7orwtO2CPG5DJflCrlzD92FAxy4UyCHca_41o2VhGVgmdznoUL1EvtQOjxQ4NqIXnNAd6Duju948WxjdVP3oVnwOhZtzfvvLhB7p-r_NCY8hOdwj2CNylAWT9IqK3U2WfwAcBMc6zO5MV23cWSLPTChDYdh4WCREPm9xeareiRM0BJyQBcIhWcrDAxouY7hapA1L87elOPR_XESAlayJ7OYbr-ypk4NpOQJIXl_hADXPTnlbU"/>
+</div>
+<!-- Professional Trust Badge -->
+<div class="absolute -bottom-4 right-4 bg-tertiary-container text-on-tertiary-container px-4 py-2 rounded-full text-xs font-bold tracking-widest flex items-center gap-2 shadow-lg">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            TOP PRO
+                        </div>
+</div>
+<div class="space-y-4">
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface">Elena Vance</h1>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<span class="font-medium">San Francisco, CA</span>
+</div>
+<p class="text-on-surface-variant leading-relaxed">Specializing in high-end servify photography and brand storytelling for architectural firms.</p>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:translate-y-[-2px] transition-transform duration-300">
+<span class="material-symbols-outlined">mail</span>
+                            Contact Elena
+                        </button>
+<button class="w-full bg-secondary-container text-on-secondary-container py-4 rounded-lg font-bold hover:bg-surface-container-high transition-colors duration-300">
+                            Download Media Kit
+                        </button>
+</div>
+</div>
+</aside>
+<!-- Center/Right Column: Curated Content -->
+<div class="lg:col-span-8 space-y-24">
+<!-- Bio Section -->
+<section>
+<span class="text-xs font-bold text-primary tracking-[0.2em] uppercase block mb-4">The Philosophy</span>
+<h2 class="text-3xl font-bold mb-8 tracking-tight">Capturing the silent dialogue between architecture and light.</h2>
+<div class="prose prose-lg text-on-surface-variant leading-relaxed max-w-2xl">
+<p>With over a decade of experience, I approach every project as a curator. My goal isn't just to document a space, but to translate its architectural intent into a visual narrative. I work closely with design teams to ensure that every line, shadow, and texture is represented with servify precision.</p>
+</div>
+</section>
+<!-- Services Bento -->
+<section>
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-xs font-bold text-primary tracking-[0.2em] uppercase block mb-4">Professional Services</span>
+<h2 class="text-3xl font-bold tracking-tight">Curation &amp; Execution</h2>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="p-8 bg-surface-container-low rounded-xl flex flex-col justify-between hover:bg-surface-container transition-colors">
+<div class="space-y-4">
+<span class="material-symbols-outlined text-3xl text-primary">architecture</span>
+<h3 class="text-xl font-bold">Full Day Servify</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Comprehensive coverage of residential or commercial projects including styling and drone work.</p>
+</div>
+<div class="mt-8 flex justify-between items-center">
+<span class="text-2xl font-bold text-primary">$4,200</span>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Per Day</span>
+</div>
+</div>
+<div class="p-8 bg-primary text-on-primary rounded-xl flex flex-col justify-between shadow-xl">
+<div class="space-y-4">
+<span class="material-symbols-outlined text-3xl text-on-primary-container">camera</span>
+<h3 class="text-xl font-bold">Brand Storytelling</h3>
+<p class="text-on-primary-container text-sm leading-relaxed">Curated content strategy and photography for firm launches and portfolio revamps.</p>
+</div>
+<div class="mt-8 flex justify-between items-center">
+<span class="text-2xl font-bold">$2,800</span>
+<span class="text-xs font-bold uppercase tracking-wider opacity-70">Starts At</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Portfolio Masonry -->
+<section>
+<span class="text-xs font-bold text-primary tracking-[0.2em] uppercase block mb-8">Selected Works</span>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-4">
+<div class="rounded-xl overflow-hidden bg-surface-container-high aspect-square">
+<img alt="Glass Skyscraper" class="w-full h-full object-cover" data-alt="Modern glass skyscraper facade reflecting a deep blue twilight sky with geometric symmetry and clean lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpIs6eCXNqvYMnMGD-JxT1AOWL14Em6hNzeWXLH-yzsUIDV2Xfx_lvvG8bp_3wN1iZFXfQd7fdpI7pJq309pyCascqshWlX8kwCwY1NYhqiDlHA2l9SQqynfpRrWn3qzcDj_oFZIduArf88T6p9zJW6jYlfx4nmizNF7DcNL81fyfJgAtYeI7qCLbATXaAeCoXHkx_LiN8s25qoAEiAgx_qZ8mEm0I-_weMJuip7UZ32qKaIiMf6nZNRd58FzDxFgZ0gqfors7R6A"/>
+</div>
+<div class="rounded-xl overflow-hidden bg-surface-container-high aspect-[3/4]">
+<img alt="Modern Kitchen" class="w-full h-full object-cover" data-alt="Minimalist luxury kitchen interior with white marble islands and warm wood accents in soft afternoon sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsJ91GIFEL1nkmcqu-ZLDRQwLY8wA1hDPuXoIOW3TuWa04AM7cUQDeXEX7nr734zkqF-vA3wzPJdcHeVFGnVDtu7_csM0jJ4rRiMtvWlqarvrPUaZyGhLqLhLM8doHoj2IP9fDTXvKLWxPZdyqc1ab87xXo2B5NDYctHPWsM2n63JrRo_Yi8xXuhAtzpmJk0vb4w4beOQWoux4GBhrnK17C-n6nif1XaDydvhICh53WeCof65cR-IvCBI8RQepeNI99bxlikqCWFE"/>
+</div>
+</div>
+<div class="space-y-4 pt-12">
+<div class="rounded-xl overflow-hidden bg-surface-container-high aspect-[3/4]">
+<img alt="Brutalist Concrete" class="w-full h-full object-cover" data-alt="Close-up of brutalist concrete architecture showing complex textures and dramatic play of light and shadow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn0nBqPghl_O83ZCP4E5_8jDPn2Xyc0gbajB54BFEkpOkY3fTJ0wd10STY903f9ZHRjrNq2nvVhBjiz8bWsXQykbdcOG7kULZ5ODcMUEKjukvowUVIckjguD4QfHZOjPkRDC-fKo_dGGm_y2KDt7DLupMVZ2z_yjUkMk6QyxoA1oWn3jmZvj8KfTyFOs0Bs_c54atZ-r2ENd0gyD-S2qtUHE2odW_m-D4t9AVyu7I_ah74pCcqz4J6R4GkTgeC0RMb-EuI_bhgz18"/>
+</div>
+<div class="rounded-xl overflow-hidden bg-surface-container-high aspect-square">
+<img alt="Minimal Office" class="w-full h-full object-cover" data-alt="Clean corporate office lobby with large windows and architectural lighting at sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUQ9OEKrFxFaTl8J-6sxsTal4SgkHX6B7DbseKHtehlsvXB1OVInKJQMcAMgT0jK249kWJQYpK9RWRGLshCm_zgxt9P1hNYXqlHvMfIZiRFRHn3GU4_fcawnU3LqOnlo7r7fKgIj9T-Ulh_yEV0ZFttSXuu8EF8viZxorlsCimuBP5pLFKaW_IibFuUDPvwx35rVDwTDAg6ZoMO1C0I-Dyk4qMP7GbI_37jmFegz5NIaz9yGQ9v7SzsTiQ5MG1AS7ZrZ_EzMAjhQ0"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Reviews -->
+<section>
+<div class="flex items-center gap-4 mb-12">
+<h2 class="text-3xl font-bold tracking-tight">Trusted by Industry Leaders</h2>
+<div class="h-[1px] flex-grow bg-outline-variant opacity-20"></div>
+</div>
+<div class="space-y-12">
+<div class="relative pl-8 border-l-4 border-primary">
+<div class="flex items-center gap-1 mb-4 text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-xl font-medium text-on-surface mb-4 leading-relaxed">"Elena's eye for architectural detail is unparalleled. She managed to capture the emotional core of our latest project in a way that truly resonated with our clients."</p>
+<div>
+<span class="block font-bold">Marcus Thorne</span>
+<span class="text-xs uppercase tracking-widest text-on-surface-variant font-semibold">Principal, Thorne &amp; Co Architects</span>
+</div>
+</div>
+<div class="relative pl-8 border-l-4 border-outline-variant">
+<div class="flex items-center gap-1 mb-4 text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-xl font-medium text-on-surface mb-4 leading-relaxed">"Efficient, professional, and has an incredible understanding of light. The servify shots for our portfolio were stunning."</p>
+<div>
+<span class="block font-bold">Sarah Jenkins</span>
+<span class="text-xs uppercase tracking-widest text-on-surface-variant font-semibold">Director of Interiors, Studio Blanc</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Booking CTA -->
+<section class="bg-surface-container-lowest p-12 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="space-y-4">
+<h2 class="text-3xl font-bold tracking-tight">Ready to elevate your project?</h2>
+<p class="text-on-surface-variant">Currently booking for Q3 and Q4. Limited slots available for international travel.</p>
+</div>
+<button class="bg-primary text-on-primary px-10 py-5 rounded-lg font-bold text-lg hover:bg-primary-container transition-all shadow-xl hover:shadow-primary/20">
+                        Book a Consultation
+                    </button>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#dadadc] dark:bg-slate-950 w-full py-16 px-8 mt-auto">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-4">
+<span class="text-xl font-bold text-[#004d4f]">Servify</span>
+<p class="text-slate-600 dark:text-slate-400 max-w-sm">A curated marketplace connecting elite professionals with industry-leading firms.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div class="space-y-4">
+<span class="text-sm font-bold text-[#004d4f] uppercase tracking-widest">Platform</span>
+<ul class="space-y-2 text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-[#006769] transition-colors" href="#">Browse Professionals</a></li>
+<li><a class="hover:text-[#006769] transition-colors" href="#">How It Works</a></li>
+<li><a class="hover:text-[#006769] transition-colors" href="#">Support Center</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<span class="text-sm font-bold text-[#004d4f] uppercase tracking-widest">Legal</span>
+<ul class="space-y-2 text-slate-600 dark:text-slate-400">
+<li><a class="hover:text-[#006769] transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-[#006769] transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-[#006769] transition-colors" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto pt-16 mt-16 border-t border-slate-300 dark:border-slate-800">
+<p class="text-slate-600 dark:text-slate-400 text-sm">© 2024 Servify. All rights reserved.</p>
+</div>
+</footer>
+</body></html>
