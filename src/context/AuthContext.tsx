@@ -11,7 +11,7 @@ import { UserRole } from '../types';
 
 interface AuthContextType {
   user: AppUser | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<AppUser>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -59,9 +59,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string): Promise<void> => {
+  const login = async (email: string, password: string): Promise<AppUser> => {
     const res = await authApi.login(email, password);
-    setUser(profileToAppUser(res.user));
+    const appUser = profileToAppUser(res.user);
+    setUser(appUser);
+    return appUser;
   };
 
   const logout = () => {

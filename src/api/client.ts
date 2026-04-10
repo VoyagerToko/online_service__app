@@ -2,11 +2,14 @@
  * Frontend API client — typed wrapper around fetch() for the Servify backend.
  * Import individual api objects in components.
  *
- * Base URL is proxied via vite.config.ts → http://localhost:8000
- * so all requests go to /api/v1/... without CORS issues in dev.
+ * In dev, requests are proxied via vite.config.ts → http://localhost:8000.
+ * In production, set VITE_API_BASE_URL to your backend origin.
  */
 
-const BASE = '/api/v1';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').trim().replace(/\/+$/, '');
+const BASE = API_BASE_URL
+    ? (API_BASE_URL.endsWith('/api/v1') ? API_BASE_URL : `${API_BASE_URL}/api/v1`)
+    : '/api/v1';
 
 // ─── Auth helpers ──────────────────────────────────────────────────────────────
 
@@ -108,6 +111,10 @@ export const authApi = {
         apiFetch('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, new_password }) }),
 };
 
+export const usersApi = {
+    deleteMe: () => apiFetch<{ message: string }>('/users/me', { method: 'DELETE' }),
+};
+
 // ─── Services endpoints ─────────────────────────────────────────────────────────
 
 export interface Service {
@@ -132,8 +139,20 @@ export interface Category {
 
 export const servicesApi = {
     listCategories: () => apiFetch<Category[]>('/categories/'),
-    listServices: (params?: { category_id?: string; search?: string }) => {
-        const qs = new URLSearchParams(params as Record<string, string>).toString();
+    listServices: (params?: {
+        category_id?: string;
+        search?: string;
+        active_only?: boolean;
+        skip?: number;
+        limit?: number;
+    }) => {
+        const queryParams = new URLSearchParams();
+        if (params?.category_id) queryParams.set('category_id', params.category_id);
+        if (params?.search) queryParams.set('search', params.search);
+        if (typeof params?.active_only === 'boolean') queryParams.set('active_only', String(params.active_only));
+        if (typeof params?.skip === 'number') queryParams.set('skip', String(params.skip));
+        if (typeof params?.limit === 'number') queryParams.set('limit', String(params.limit));
+        const qs = queryParams.toString();
         return apiFetch<Service[]>(`/services/${qs ? `?${qs}` : ''}`);
     },
     getService: (id: string) => apiFetch<Service>(`/services/${id}`),
@@ -201,18 +220,163 @@ export const bookingsApi = {
 
 // ─── Reviews endpoints ──────────────────────────────────────────────────────────
 
+export interface Review {
+    id: string;
+    booking_id: string;
+    reviewer_id: string;
+    reviewee_id: string;
+    rating: number;
+    comment: string | null;
+    is_verified: boolean;
+    is_flagged: boolean;
+}
+
 export const reviewsApi = {
     create: (booking_id: string, rating: number, comment?: string) =>
         apiFetch('/reviews/', { method: 'POST', body: JSON.stringify({ booking_id, rating, comment }) }),
-    getForProfessional: (pro_id: string) => apiFetch(`/reviews/professional/${pro_id}`),
+    getForProfessional: (pro_id: string) => apiFetch<Review[]>(`/reviews/professional/${pro_id}`),
 };
 
 // ─── Notifications endpoints ─────────────────────────────────────────────────────
 
+export interface Notification {
+    id: string;
+    type: string;
+    title: string;
+    body: string;
+    is_read: boolean;
+    metadata_?: Record<string, unknown> | null;
+}
+
 export const notificationsApi = {
-    list: (unread_only = false) => apiFetch(`/notifications/?unread_only=${unread_only}`),
+    list: (unread_only = false) => apiFetch<Notification[]>(`/notifications/?unread_only=${unread_only}`),
     markRead: (id: string) => apiFetch(`/notifications/${id}/read`, { method: 'PATCH' }),
     markAllRead: () => apiFetch('/notifications/read-all', { method: 'PATCH' }),
+};
+
+// ─── Messaging endpoints ───────────────────────────────────────────────────────
+
+export interface Conversation {
+    id: string;
+    user_id: string;
+    professional_id: string;
+    booking_id: string | null;
+    counterpart_user_id: string;
+    counterpart_name: string;
+    counterpart_avatar_url: string | null;
+    last_message_preview: string | null;
+    last_message_at: string | null;
+    unread_count: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface ConversationMessage {
+    id: string;
+    conversation_id: string;
+    sender_id: string;
+    sender_name: string | null;
+    sender_role: 'user' | 'professional';
+    body: string;
+    read_at: string | null;
+    created_at: string;
+    is_mine: boolean;
+}
+
+export const messagesApi = {
+    listConversations: (params?: { booking_id?: string; skip?: number; limit?: number }) => {
+        const queryParams = new URLSearchParams();
+        if (params?.booking_id) queryParams.set('booking_id', params.booking_id);
+        if (typeof params?.skip === 'number') queryParams.set('skip', String(params.skip));
+        if (typeof params?.limit === 'number') queryParams.set('limit', String(params.limit));
+        const qs = queryParams.toString();
+        return apiFetch<Conversation[]>(`/messages/conversations${qs ? `?${qs}` : ''}`);
+    },
+
+    createConversation: (data: {
+        professional_id?: string;
+        user_id?: string;
+        booking_id?: string;
+        initial_message?: string;
+    }) => apiFetch<Conversation>('/messages/conversations', { method: 'POST', body: JSON.stringify(data) }),
+
+    listMessages: (conversationId: string, params?: { skip?: number; limit?: number }) => {
+        const queryParams = new URLSearchParams();
+        if (typeof params?.skip === 'number') queryParams.set('skip', String(params.skip));
+        if (typeof params?.limit === 'number') queryParams.set('limit', String(params.limit));
+        const qs = queryParams.toString();
+        return apiFetch<ConversationMessage[]>(`/messages/conversations/${conversationId}/messages${qs ? `?${qs}` : ''}`);
+    },
+
+    sendMessage: (conversationId: string, body: string) =>
+        apiFetch<ConversationMessage>(`/messages/conversations/${conversationId}/messages`, {
+            method: 'POST',
+            body: JSON.stringify({ body }),
+        }),
+
+    markConversationRead: (conversationId: string) =>
+        apiFetch<{ updated: number }>(`/messages/conversations/${conversationId}/read`, {
+            method: 'POST',
+        }),
+};
+
+// ─── Admin endpoints ─────────────────────────────────────────────────────────────
+
+export interface AnalyticsSummary {
+    total_users: number;
+    total_professionals: number;
+    total_bookings: number;
+    completed_bookings: number;
+    cancelled_bookings: number;
+    cancellation_rate: number;
+    total_revenue: number;
+    open_disputes: number;
+    pending_kyc: number;
+}
+
+export interface KycDocument {
+    id: string;
+    pro_id: string;
+    doc_type: string;
+    file_url: string;
+    status: 'pending' | 'approved' | 'rejected';
+    reviewed_by: string | null;
+    reviewed_at: string | null;
+    created_at: string;
+}
+
+export interface AdminAccount {
+    id: string;
+    name: string;
+    email: string;
+    role: 'user' | 'professional' | 'admin';
+    is_active: boolean;
+    is_blocked: boolean;
+    is_email_verified: boolean;
+    created_at: string;
+    professional_id?: string | null;
+    is_suspended?: boolean | null;
+}
+
+export const adminApi = {
+    analytics: () => apiFetch<AnalyticsSummary>('/admin/analytics'),
+    listUsers: (params?: { role?: 'user' | 'professional' | 'admin'; skip?: number; limit?: number }) => {
+        const queryParams = new URLSearchParams();
+        if (params?.role) queryParams.set('role', params.role);
+        if (typeof params?.skip === 'number') queryParams.set('skip', String(params.skip));
+        if (typeof params?.limit === 'number') queryParams.set('limit', String(params.limit));
+        const qs = queryParams.toString();
+        return apiFetch<AdminAccount[]>(`/admin/users${qs ? `?${qs}` : ''}`);
+    },
+    blockUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/block`, { method: 'PATCH' }),
+    unblockUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/unblock`, { method: 'PATCH' }),
+    suspendUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/suspend`, { method: 'PATCH' }),
+    reinstateUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/reinstate`, { method: 'PATCH' }),
+    deleteUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}`, { method: 'DELETE' }),
+    listKyc: (status_filter: 'pending' | 'approved' | 'rejected' = 'pending') =>
+        apiFetch<KycDocument[]>(`/admin/kyc?status_filter=${status_filter}`),
+    approveKyc: (docId: string) => apiFetch<{ message: string }>(`/admin/kyc/${docId}/approve`, { method: 'PATCH' }),
+    rejectKyc: (docId: string) => apiFetch<{ message: string }>(`/admin/kyc/${docId}/reject`, { method: 'PATCH' }),
 };
 
 // ─── Professionals endpoints ─────────────────────────────────────────────────────
@@ -220,6 +384,8 @@ export const notificationsApi = {
 export interface Professional {
     id: string;
     user_id: string;
+    name?: string | null;
+    avatar_url?: string | null;
     specialty: string;
     bio: string | null;
     experience_years: number;
@@ -228,6 +394,13 @@ export interface Professional {
     total_jobs: number;
     is_kyc_verified: boolean;
     is_suspended: boolean;
+    starting_price?: number;
+    public_phone?: string | null;
+    public_email?: string | null;
+    whatsapp_number?: string | null;
+    website_url?: string | null;
+    contact_address?: string | null;
+    photo_urls?: string[];
 }
 
 export const professionalsApi = {
@@ -236,6 +409,43 @@ export const professionalsApi = {
         return apiFetch<Professional[]>(`/professionals/${qs ? `?${qs}` : ''}`);
     },
     get: (id: string) => apiFetch<Professional>(`/professionals/${id}`),
-    updateMe: (data: { specialty?: string; bio?: string; is_available?: boolean; experience_years?: number }) =>
+    updateMe: (data: {
+        specialty?: string;
+        bio?: string;
+        is_available?: boolean;
+        experience_years?: number;
+        starting_price?: number;
+        public_phone?: string;
+        public_email?: string;
+        whatsapp_number?: string;
+        website_url?: string;
+        contact_address?: string;
+        photo_urls?: string[];
+    }) =>
         apiFetch<Professional>('/professionals/me', { method: 'PATCH', body: JSON.stringify(data) }),
+    uploadPhoto: async (file: File): Promise<Professional> => {
+        const token = getToken();
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await fetch(`${BASE}/professionals/me/photos`, {
+            method: 'POST',
+            headers: {
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            },
+            body: formData,
+        });
+
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({ detail: res.statusText }));
+            throw new Error(body.detail ?? 'Failed to upload photo');
+        }
+
+        return res.json();
+    },
+    removePhoto: (photo_url: string) =>
+        apiFetch<Professional>('/professionals/me/photos', {
+            method: 'DELETE',
+            body: JSON.stringify({ photo_url }),
+        }),
 };

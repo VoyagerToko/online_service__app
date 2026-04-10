@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
       // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
       proxy: {
-        // Forward all /api/v1/* and /uploads/* to FastAPI backend
+        // Forward all /api/v1/* and /uploads/* to backend API
         '/api': {
           target: 'http://localhost:8000',
           changeOrigin: true,

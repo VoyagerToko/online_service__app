@@ -1,16 +1,10 @@
-FROM python:3.12-slim
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Install Python dependencies first (layer cache)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Node dependencies first (layer cache)
+COPY package.json package-lock.json* ./
+RUN npm install
 
 # Copy application code
 COPY . .
@@ -19,9 +13,9 @@ COPY . .
 RUN mkdir -p uploads
 
 # Non-root user for security
-RUN useradd -m -u 1000 servify && chown -R servify:servify /app
+RUN addgroup -S servify && adduser -S servify -G servify && chown -R servify:servify /app
 USER servify
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["npm", "run", "start"]

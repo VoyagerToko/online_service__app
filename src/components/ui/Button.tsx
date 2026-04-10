@@ -16,23 +16,23 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const variants = {
-    primary: 'gradient-bg text-white shadow-lg shadow-brand-500/30 hover:shadow-brand-500/40 active:scale-95',
-    secondary: 'bg-slate-200 text-slate-900 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700',
-    outline: 'border-2 border-brand-500 text-brand-600 hover:bg-brand-50 dark:text-brand-400 dark:hover:bg-brand-900/20',
-    ghost: 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400',
-    danger: 'bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/30',
+    primary: 'bg-brand-500 text-white rounded-lg servify-shadow hover:bg-brand-400 hover:-translate-y-0.5 active:scale-95',
+    secondary: 'bg-[#c7e5e6] text-[#4c6868] rounded-lg hover:bg-[#b9ddde] active:scale-95',
+    outline: 'border border-[#bec9c8] text-brand-500 rounded-lg bg-white hover:bg-brand-50 active:scale-95',
+    ghost: 'text-[#6f7979] rounded-lg hover:bg-[#f3f3f6]',
+    danger: 'bg-[#ba1a1a] text-white rounded-lg hover:bg-red-700 active:scale-95',
   };
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-5 py-2.5',
-    lg: 'px-8 py-3.5 text-lg font-semibold',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-2.5 text-sm',
+    lg: 'px-10 py-4 text-lg font-bold',
   };
 
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center rounded-2xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium',
+        'inline-flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold',
         variants[variant],
         sizes[size],
         className

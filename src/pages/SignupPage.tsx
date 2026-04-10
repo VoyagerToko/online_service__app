@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Lock, User, Phone, ArrowRight, ShieldCheck, Briefcase } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../context/AuthContext';
 import { authApi } from '../api/client';
@@ -12,6 +12,7 @@ const SPECIALTIES = [
 ];
 
 export const SignupPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -22,6 +23,13 @@ export const SignupPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const roleParam = searchParams.get('role');
+    if (roleParam === 'professional' || roleParam === 'user') {
+      setRole(roleParam);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,13 +55,18 @@ export const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-20 flex items-center justify-center px-6 bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen pt-28 pb-20 flex items-center justify-center px-6 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="hero-grid absolute inset-x-6 top-10 h-[82%] rounded-[2.5rem] opacity-40" />
+        <div className="absolute top-20 right-0 h-72 w-72 rounded-full bg-brand-300/24 blur-3xl" />
+        <div className="absolute bottom-10 left-0 h-72 w-72 rounded-full bg-accent-500/16 blur-3xl" />
+      </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-2xl grid md:grid-cols-2 bg-white dark:bg-slate-900 rounded-[3rem] overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800"
+        className="w-full max-w-2xl grid md:grid-cols-2 mesh-panel rounded-[2.7rem] overflow-hidden shadow-2xl border border-white/70 dark:border-slate-800/70 relative z-10"
       >
-        <div className="gradient-bg p-12 text-white hidden md:flex flex-col justify-between">
+        <div className="gradient-bg p-10 lg:p-12 text-white hidden md:flex flex-col justify-between">
           <div>
             <h2 className="text-4xl font-display font-bold mb-6">Join the <br />Community.</h2>
             <p className="text-white/80 leading-relaxed">
@@ -77,7 +90,7 @@ export const SignupPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-10 lg:p-12">
+        <div className="p-8 lg:p-10">
           <div className="mb-8">
             <h1 className="text-2xl font-display font-bold dark:text-white mb-2">Create Account</h1>
             <p className="text-slate-500 text-sm">Start booking premium services today</p>
@@ -116,7 +129,7 @@ export const SignupPage: React.FC = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white/95 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
                   placeholder="John Doe"
                 />
               </div>
@@ -131,7 +144,7 @@ export const SignupPage: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white/95 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
                   placeholder="john@example.com"
                 />
               </div>
@@ -146,7 +159,7 @@ export const SignupPage: React.FC = () => {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white/95 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
                   placeholder="+91 98765 43210"
                 />
               </div>
@@ -161,7 +174,7 @@ export const SignupPage: React.FC = () => {
                   <select
                     value={specialty}
                     onChange={(e) => setSpecialty(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm appearance-none"
+                    className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white/95 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm appearance-none"
                   >
                     <option value="">Select your specialty...</option>
                     {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -179,7 +192,7 @@ export const SignupPage: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl bg-white/95 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all dark:text-white text-sm"
                   placeholder="••••••••"
                 />
               </div>

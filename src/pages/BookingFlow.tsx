@@ -22,6 +22,7 @@ export const BookingFlow: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [booked, setBooked] = useState(false);
+  const [createdBookingId, setCreatedBookingId] = useState<string | null>(null);
   const [description, setDescription] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState('');
@@ -44,7 +45,8 @@ export const BookingFlow: React.FC = () => {
     setError('');
     setIsSubmitting(true);
     try {
-      await bookingsApi.create({ pro_id: proId, description, address, scheduled_date: date, time_slot: timeSlot });
+      const created = await bookingsApi.create({ pro_id: proId, description, address, scheduled_date: date, time_slot: timeSlot });
+      setCreatedBookingId(created.id);
       setBooked(true);
     } catch (err: any) {
       setError(err.message || 'Booking failed. Please try again.');
@@ -53,67 +55,91 @@ export const BookingFlow: React.FC = () => {
     }
   };
 
-  if (isLoading) return <div className="pt-28 pb-20 px-6 text-center text-slate-400">Loading professional...</div>;
-  if (!pro) return <div className="pt-28 pb-20 px-6 text-center text-slate-400">Professional not found.</div>;
+  if (isLoading) return <div className="pt-32 pb-24 px-8 text-center text-slate-400">Loading professional...</div>;
+  if (!pro) return <div className="pt-32 pb-24 px-8 text-center text-slate-400">Professional not found.</div>;
 
   if (booked) {
     return (
-      <div className="pt-28 pb-20 px-6 max-w-lg mx-auto text-center">
+      <div className="pt-32 pb-24 px-8 max-w-lg mx-auto text-center">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
-          <div className="w-24 h-24 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-500 mx-auto">
+          <div className="w-24 h-24 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-500 mx-auto">
             <CheckCircle2 size={52} />
           </div>
-          <h2 className="text-3xl font-bold dark:text-white">Request Sent!</h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-            Your booking request has been sent to the <strong className="text-slate-700 dark:text-slate-200">{pro.specialty}</strong>.
+          <h2 className="text-3xl font-bold">Request Sent!</h2>
+          <p className="text-slate-500 max-w-sm mx-auto">
+            Your booking request has been sent to the <strong className="text-slate-700">{pro.specialty}</strong>.
             Check your dashboard for updates.
           </p>
-          <Button size="lg" onClick={() => navigate('/dashboard')}>Go to My Dashboard</Button>
+          <div className="space-y-3">
+            <Button size="lg" className="w-full" onClick={() => navigate('/dashboard')}>Go to My Dashboard</Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                const params = new URLSearchParams({ professionalId: pro.id });
+                if (createdBookingId) params.set('bookingId', createdBookingId);
+                navigate(`/messages?${params.toString()}`);
+              }}
+            >
+              Message Professional
+            </Button>
+          </div>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="pt-28 pb-20 px-6 max-w-4xl mx-auto">
+    <div className="pt-32 pb-24 px-8 max-w-7xl mx-auto">
       <button
         onClick={() => navigate('/professionals')}
-        className="flex items-center gap-2 text-slate-500 hover:text-brand-600 mb-8 transition-colors text-sm font-medium"
+        className="flex items-center gap-2 text-slate-500 hover:text-brand-500 mb-10 transition-colors text-sm font-semibold"
       >
         <ArrowLeft size={16} /> Back to Professionals
       </button>
 
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="md:col-span-1">
-          <Card className="p-6 sticky top-28 text-center">
-            <div className="w-20 h-20 rounded-3xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center text-brand-600 text-3xl font-bold mx-auto mb-4">
+      <div className="grid lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-4">
+          <Card className="p-8 sticky top-32 text-center">
+            <div className="w-20 h-20 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 text-3xl font-bold mx-auto mb-4">
               {pro.specialty.charAt(0)}
             </div>
             {pro.is_kyc_verified && (
-              <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-600 bg-brand-50 dark:bg-brand-900/20 px-3 py-1 rounded-full mb-3">
+              <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-600 bg-brand-50 px-3 py-1 rounded-full mb-3">
                 <ShieldCheck size={12} /> Verified
               </span>
             )}
-            <h3 className="font-bold dark:text-white text-lg mb-1">{pro.specialty}</h3>
+            <h3 className="font-bold text-lg mb-1">{pro.specialty}</h3>
+            <p className="text-sm text-brand-600 font-semibold mb-1">Starting at ₹{pro.starting_price ?? 0}</p>
             <div className="flex items-center justify-center gap-1 text-yellow-500 text-sm mb-3">
               <Star size={14} fill="currentColor" />
               <span className="font-bold">{pro.avg_rating.toFixed(1)}</span>
               <span className="text-slate-400 font-normal">  {pro.total_jobs} jobs</span>
             </div>
-            <span className={`text-xs font-bold px-3 py-1 rounded-full inline-block ${pro.is_available ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' : 'text-slate-500 bg-slate-100 dark:bg-slate-800'}`}>
+            <span className={`text-xs font-bold px-3 py-1 rounded-full inline-block ${pro.is_available ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500 bg-slate-100'}`}>
               {pro.is_available ? ' Available Now' : ' Currently Busy'}
             </span>
-            {pro.bio && <p className="text-xs text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">{pro.bio}</p>}
+            {pro.bio && <p className="text-xs text-slate-500 mt-4 leading-relaxed">{pro.bio}</p>}
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-4"
+              onClick={() => navigate(`/messages?professionalId=${pro.id}`)}
+            >
+              Ask Before Booking
+            </Button>
           </Card>
         </div>
 
-        <div className="md:col-span-2 space-y-6">
+        <div className="lg:col-span-8 space-y-8">
           <div>
-            <h1 className="text-2xl font-bold dark:text-white mb-1">Book a {pro.specialty}</h1>
-            <p className="text-slate-500 text-sm">Describe your problem and pick a time. The professional will confirm.</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-500 mb-2">Step 01</p>
+            <h1 className="text-4xl font-bold tracking-tight mb-3">Select Date & Time</h1>
+            <p className="text-slate-500 text-base">Describe your problem and pick a slot. The professional will confirm promptly.</p>
           </div>
 
-          <Card className="p-6 space-y-6">
+          <Card className="p-8 space-y-6">
             <div className="space-y-1.5">
               <label className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
                 <FileText size={14} /> Describe the work needed *
@@ -123,7 +149,7 @@ export const BookingFlow: React.FC = () => {
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 placeholder="E.g. My ceiling fan stopped working, needs to be checked and repaired or replaced..."
-                className="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none dark:text-white text-sm resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-brand-50 border border-brand-200/30 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm resize-none"
               />
             </div>
 
@@ -136,7 +162,7 @@ export const BookingFlow: React.FC = () => {
                 value={address}
                 onChange={e => setAddress(e.target.value)}
                 placeholder="Flat 4B, Sector 45, Gurgaon, Haryana 122003"
-                className="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none dark:text-white text-sm"
+                className="w-full px-4 py-3 rounded-xl bg-brand-50 border border-brand-200/30 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm"
               />
             </div>
 
@@ -149,7 +175,7 @@ export const BookingFlow: React.FC = () => {
                 value={date}
                 min={minDate}
                 onChange={e => setDate(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-brand-500 outline-none dark:text-white text-sm"
+                className="w-full px-4 py-3 rounded-xl bg-brand-50 border border-brand-200/30 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm"
               />
             </div>
 
@@ -163,7 +189,7 @@ export const BookingFlow: React.FC = () => {
                     key={slot}
                     type="button"
                     onClick={() => setTimeSlot(slot)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl border-2 text-sm font-medium transition-all ${timeSlot === slot ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/20 text-brand-600' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300'}`}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${timeSlot === slot ? 'border-brand-500 bg-brand-50 text-brand-600' : 'border-brand-200/40 text-slate-600 hover:border-brand-300'}`}
                   >
                     <Clock size={15} className="shrink-0" />
                     {slot}
@@ -175,7 +201,7 @@ export const BookingFlow: React.FC = () => {
           </Card>
 
           {error && (
-            <p className="text-sm text-red-500 font-medium bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>
+            <p className="text-sm text-red-500 font-medium bg-red-50 px-4 py-3 rounded-xl">{error}</p>
           )}
           <Button size="lg" className="w-full py-4" onClick={handleSubmit} disabled={isSubmitting}>
             {isSubmitting ? 'Sending Request...' : 'Send Booking Request'}

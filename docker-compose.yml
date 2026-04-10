@@ -38,7 +38,7 @@ services:
       - "1025:1025"    # SMTP
       - "8025:8025"    # Web UI → http://localhost:8025
 
-  # ─── FastAPI Backend ───────────────────────────────────────────────────
+  # ─── Express Backend ───────────────────────────────────────────────────
   backend:
     build:
       context: ./backend
@@ -47,7 +47,7 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      DATABASE_URL: postgresql+asyncpg://servify:servify_pass@db:5432/servify_db
+      DATABASE_URL: postgresql://servify:servify_pass@db:5432/servify_db
       REDIS_URL: redis://redis:6379
       MAIL_SERVER: mailhog
       MAIL_PORT: "1025"
@@ -61,7 +61,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: npm run dev
 
   # ─── React Frontend (dev) ──────────────────────────────────────────────
   frontend:

@@ -49,7 +49,7 @@ export const PROFESSIONALS: Professional[] = [
     specialty: 'Expert Electrician',
     rating: 4.9,
     jobsCompleted: 450,
-    avatar: 'https://picsum.photos/seed/rahul/200/200',
+    avatar: 'https://ui-avatars.com/api/?name=Rahul+Sharma&background=004d4f&color=ffffff&size=256',
     verified: true,
   },
   {
@@ -58,7 +58,7 @@ export const PROFESSIONALS: Professional[] = [
     specialty: 'Master Plumber',
     rating: 4.7,
     jobsCompleted: 320,
-    avatar: 'https://picsum.photos/seed/amit/200/200',
+    avatar: 'https://ui-avatars.com/api/?name=Amit+Kumar&background=006769&color=ffffff&size=256',
     verified: true,
   },
 ];

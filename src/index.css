@@ -1,39 +1,122 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Poppins", sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
   
   --radius-2xl: 1rem;
   --radius-3xl: 1.5rem;
   
-  --color-brand-50: #f0f4ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-300: #a5b4fc;
-  --color-brand-400: #818cf8;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-800: #3730a3;
-  --color-brand-900: #312e81;
+  --color-brand-50: #f3f3f6;
+  --color-brand-100: #e8e8ea;
+  --color-brand-200: #bec9c8;
+  --color-brand-300: #86d3d5;
+  --color-brand-400: #006769;
+  --color-brand-500: #004d4f;
+  --color-brand-600: #004446;
+  --color-brand-700: #00393a;
+  --color-brand-800: #002f30;
+  --color-brand-900: #002425;
+
+  --color-accent-500: #006769;
+  --color-spark-500: #884d2b;
 }
 
 @layer base {
+  :root {
+    color-scheme: light;
+    --surface: #f9f9fc;
+    --surface-low: #f3f3f6;
+    --surface-lowest: #ffffff;
+    --surface-highest: #e2e2e5;
+    --outline-variant: #bec9c8;
+    --on-surface: #1a1c1e;
+    --on-surface-variant: #3f4949;
+
+    /* Hex fallbacks keep colors stable on browsers with limited oklch support. */
+    --color-slate-50: #f8fafc;
+    --color-slate-100: #f1f5f9;
+    --color-slate-200: #e2e8f0;
+    --color-slate-300: #cbd5e1;
+    --color-slate-400: #94a3b8;
+    --color-slate-500: #64748b;
+    --color-slate-600: #475569;
+    --color-slate-700: #334155;
+    --color-slate-800: #1e293b;
+    --color-slate-900: #0f172a;
+    --color-emerald-50: #ecfdf5;
+    --color-emerald-500: #10b981;
+    --color-emerald-600: #059669;
+    --color-red-50: #fef2f2;
+    --color-red-500: #ef4444;
+    --color-red-600: #dc2626;
+    --color-yellow-500: #eab308;
+  }
+
   body {
-    @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-50 transition-colors duration-300;
+    @apply antialiased transition-colors duration-300;
+    background-color: var(--surface);
+    color: var(--on-surface);
+    min-height: 100vh;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
   }
 }
 
 .glass {
-  @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-slate-800/50;
+  background: rgba(249, 249, 252, 0.8);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(190, 201, 200, 0.24);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass {
+    background: rgba(249, 249, 252, 0.96);
+  }
 }
 
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-linear-to-r from-brand-600 to-blue-500;
+  color: #004d4f;
+  font-style: italic;
 }
 
 .gradient-bg {
-  @apply bg-linear-to-r from-brand-600 to-blue-500;
+  background: linear-gradient(135deg, #004d4f 0%, #006769 100%);
+}
+
+.mesh-panel {
+  background: var(--surface-lowest);
+  box-shadow: 0px 24px 48px rgba(26, 28, 30, 0.06);
+}
+
+.servify-shadow {
+  box-shadow: 0px 24px 48px rgba(26, 28, 30, 0.06);
+}
+
+.dark .mesh-panel {
+  background: #1f2937;
+}
+
+.hero-grid {
+  background: none;
+}
+
+.dark .hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(100, 116, 139, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(100, 116, 139, 0.22) 1px, transparent 1px);
 }

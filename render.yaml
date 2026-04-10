@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: servify-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: false
+      - key: AUTO_CREATE_TABLES
+        value: true
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: EMAIL_SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: 7
+
+  - type: static
+    name: servify-frontend
+    rootDir: .
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
