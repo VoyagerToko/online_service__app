@@ -22,12 +22,16 @@ import {
   unauthorized,
 } from "./errors.js";
 import {
+  buildMasterAdminUser,
   createAccessToken,
   createRefreshToken,
   decodeAccessToken,
   decodeRefreshToken,
   generateEmailToken,
   hashPassword,
+  isMasterAdminLogin,
+  isMasterAdminSubject,
+  MASTER_ADMIN_ID,
   requireAdmin,
   requireAuth,
   verifyEmailToken,
@@ -78,6 +82,10 @@ function parseJsonList(value) {
 function toNumber(value, fallback = 0) {
   const n = Number(value);
   return Number.isFinite(n) ? n : fallback;
+}
+
+function getDbActorId(user) {
+  return user?.id === MASTER_ADMIN_ID ? null : user?.id ?? null;
 }
 
 function mapUser(row) {
@@ -632,6 +640,17 @@ app.post(
     assertEmail(email);
     if (!password) badRequest("password is required");
 
+    if (isMasterAdminLogin(email, password)) {
+      const masterAdmin = buildMasterAdminUser();
+      res.json({
+        access_token: createAccessToken(MASTER_ADMIN_ID, { role: masterAdmin.role, is_master_admin: true }),
+        refresh_token: createRefreshToken(MASTER_ADMIN_ID),
+        token_type: "bearer",
+        user: mapUser(masterAdmin),
+      });
+      return;
+    }
+
     const userResult = await query(
       `SELECT id, name, email, role, avatar_url, wallet_balance, is_email_verified, is_blocked, hashed_password, created_at
        FROM users WHERE email = $1`,
@@ -665,6 +684,17 @@ app.post(
     if (!refreshToken) badRequest("refresh_token is required");
 
     const payload = decodeRefreshToken(refreshToken);
+    if (isMasterAdminSubject(payload.sub)) {
+      const masterAdmin = buildMasterAdminUser();
+      res.json({
+        access_token: createAccessToken(MASTER_ADMIN_ID, { role: masterAdmin.role, is_master_admin: true }),
+        refresh_token: createRefreshToken(MASTER_ADMIN_ID),
+        token_type: "bearer",
+        user: mapUser(masterAdmin),
+      });
+      return;
+    }
+
     const userResult = await query(
       `SELECT id, name, email, role, avatar_url, wallet_balance, is_email_verified, is_active, created_at
        FROM users WHERE id = $1`,
@@ -1772,6 +1802,7 @@ app.patch(
   asyncHandler(async (req, res) => {
     const { resolution, refund_amount: refundAmount } = req.body || {};
     if (!resolution) badRequest("resolution is required");
+    const actorUserId = getDbActorId(req.user);
 
     const resolved = await withTransaction(async (client) => {
       const disputeResult = await query(`SELECT * FROM disputes WHERE id = $1`, [req.params.dispute_id], client);
@@ -1789,7 +1820,7 @@ app.patch(
              updated_at = NOW()
          WHERE id = $1
          RETURNING *`,
-        [dispute.id, resolution, req.user.id, refundAmount ?? null],
+        [dispute.id, resolution, actorUserId, refundAmount ?? null],
         client
       );
 
@@ -2355,6 +2386,7 @@ app.patch(
   requireAuth,
   requireAdmin,
   asyncHandler(async (req, res) => {
+    const actorUserId = getDbActorId(req.user);
     await withTransaction(async (client) => {
       const docResult = await query(`SELECT * FROM kyc_documents WHERE id = $1`, [req.params.doc_id], client);
       const doc = docResult.rows[0];
@@ -2366,7 +2398,7 @@ app.patch(
              reviewed_by = $2,
              reviewed_at = NOW()
          WHERE id = $1`,
-        [doc.id, req.user.id],
+        [doc.id, actorUserId],
         client
       );
 
@@ -2385,6 +2417,7 @@ app.patch(
   requireAuth,
   requireAdmin,
   asyncHandler(async (req, res) => {
+    const actorUserId = getDbActorId(req.user);
     const updated = await query(
       `UPDATE kyc_documents
        SET status = 'rejected',
@@ -2392,7 +2425,7 @@ app.patch(
            reviewed_at = NOW()
        WHERE id = $1
        RETURNING id`,
-      [req.params.doc_id, req.user.id]
+      [req.params.doc_id, actorUserId]
     );
     if (!updated.rows[0]) notFound("KYC document not found");
     res.json({ message: "KYC document rejected" });
@@ -2430,6 +2463,30 @@ app.get(
     );
 
     res.json(result.rows.map(mapAdminAccount));
+  })
+);
+
+app.patch(
+  "/api/v1/admin/users/:user_id/grant-admin",
+  requireAuth,
+  requireAdmin,
+  asyncHandler(async (req, res) => {
+    const userResult = await query(
+      `SELECT id, email, role, is_active, is_blocked FROM users WHERE id = $1`,
+      [req.params.user_id]
+    );
+    const user = userResult.rows[0];
+    if (!user) notFound("User not found");
+    if (!user.is_active || user.is_blocked) {
+      badRequest("Only active, unblocked users can be granted admin privileges");
+    }
+    if (user.role === "admin") {
+      res.json({ message: `${user.email} is already an admin` });
+      return;
+    }
+
+    await query(`UPDATE users SET role = 'admin', updated_at = NOW() WHERE id = $1`, [user.id]);
+    res.json({ message: `${user.email} has been granted admin privileges` });
   })
 );
 

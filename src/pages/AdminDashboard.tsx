@@ -360,6 +360,7 @@ export const AdminDashboard: React.FC = () => {
                 <tbody className="divide-y divide-brand-200/30">
                   {filteredAccounts.map((account) => {
                     const isSelf = account.id === user?.id;
+                    const grantKey = `grant-${account.id}`;
                     const blockKey = `block-${account.id}`;
                     const suspendKey = `suspend-${account.id}`;
                     const deleteKey = `delete-${account.id}`;
@@ -399,6 +400,18 @@ export const AdminDashboard: React.FC = () => {
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex flex-wrap justify-end gap-2">
+                            {account.role !== 'admin' && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                disabled={isSelf || !account.is_active || account.is_blocked || accountActionLoading === grantKey}
+                                className="border-violet-200 text-violet-700 hover:bg-violet-50"
+                                onClick={() => runAccountAction(grantKey, () => adminApi.grantAdmin(account.id))}
+                              >
+                                {accountActionLoading === grantKey ? '...' : <><ShieldPlus size={14} className="mr-1" /> Make Admin</>}
+                              </Button>
+                            )}
+
                             <Button
                               variant="outline"
                               size="sm"

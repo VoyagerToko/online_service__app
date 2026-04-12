@@ -368,6 +368,7 @@ export const adminApi = {
         const qs = queryParams.toString();
         return apiFetch<AdminAccount[]>(`/admin/users${qs ? `?${qs}` : ''}`);
     },
+    grantAdmin: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/grant-admin`, { method: 'PATCH' }),
     blockUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/block`, { method: 'PATCH' }),
     unblockUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/unblock`, { method: 'PATCH' }),
     suspendUser: (userId: string) => apiFetch<{ message: string }>(`/admin/users/${userId}/suspend`, { method: 'PATCH' }),
