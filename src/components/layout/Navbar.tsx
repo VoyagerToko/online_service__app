@@ -159,13 +159,31 @@ export const Navbar: React.FC = () => {
           )}
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden p-2 rounded-lg bg-white/70 border border-brand-200/40 text-slate-600"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Mobile Actions */}
+        <div className="md:hidden flex items-center gap-2">
+          {user && (
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                navigate('/messages');
+              }}
+              className="p-2 rounded-lg bg-white/70 border border-brand-200/40 text-slate-600 relative"
+              title="Messages & Notifications"
+            >
+              <Bell size={22} className="text-slate-600 dark:text-slate-300" />
+              {hasUnreadNotifications && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+              )}
+            </button>
+          )}
+
+          <button
+            className="p-2 rounded-lg bg-white/70 border border-brand-200/40 text-slate-600"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}

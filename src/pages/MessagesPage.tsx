@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { CheckCircle2, MessageSquare, Search, Send } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, MessageSquare, Search, Send } from 'lucide-react';
 import {
   messagesApi,
   type Conversation,
@@ -50,6 +50,7 @@ export const MessagesPage: React.FC = () => {
   const [query, setQuery] = useState('');
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false);
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+  const [isMobileThreadOpen, setIsMobileThreadOpen] = useState(false);
 
   const [messagesByConversation, setMessagesByConversation] = useState<Record<string, ConversationMessage[]>>({});
   const [loadingMessagesFor, setLoadingMessagesFor] = useState<string | null>(null);
@@ -141,6 +142,9 @@ export const MessagesPage: React.FC = () => {
         if (cancelled) return;
 
         setSelectedConversationId(conversation.id);
+        if (window.innerWidth < 768) {
+          setIsMobileThreadOpen(true);
+        }
         navigate('/messages', { replace: true });
       } catch (error: any) {
         if (!cancelled) {
@@ -284,7 +288,7 @@ export const MessagesPage: React.FC = () => {
 
   return (
     <div className="pt-20 min-h-[calc(100vh-5rem)] flex bg-[#f9f9fc]">
-      <section className="w-full md:w-96 flex flex-col border-r border-brand-200/20 bg-brand-50/40">
+      <section className={`w-full md:w-96 flex flex-col border-r border-brand-200/20 bg-brand-50/40 ${isMobileThreadOpen ? 'hidden md:flex' : ''}`}>
         <div className="p-6 flex items-center justify-between bg-white/70">
           <h1 className="text-2xl font-bold text-brand-500 tracking-tight">Messages</h1>
           <div className="flex items-center gap-2">
@@ -338,7 +342,12 @@ export const MessagesPage: React.FC = () => {
                 <button
                   key={conversation.id}
                   type="button"
-                  onClick={() => setSelectedConversationId(conversation.id)}
+                  onClick={() => {
+                    setSelectedConversationId(conversation.id);
+                    if (window.innerWidth < 768) {
+                      setIsMobileThreadOpen(true);
+                    }
+                  }}
                   className={`w-full text-left p-5 border-l-4 transition-colors ${
                     active
                       ? 'bg-white border-brand-500'
@@ -381,17 +390,27 @@ export const MessagesPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="hidden md:flex flex-1 flex-col bg-white">
+      <section className={`${isMobileThreadOpen ? 'flex' : 'hidden'} md:flex flex-1 flex-col bg-white`}>
         {selectedConversation ? (
           <>
             <header className="h-20 px-8 flex justify-between items-center border-b border-brand-200/20">
-              <div>
-                <h2 className="font-bold text-brand-500 tracking-tight">{selectedConversation.counterpart_name}</h2>
-                <p className="text-xs text-slate-500 uppercase tracking-wider">
-                  {selectedConversation.booking_id
-                    ? `Booking: #${selectedConversation.booking_id.slice(0, 8)}`
-                    : 'General conversation'}
-                </p>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsMobileThreadOpen(false)}
+                  className="md:hidden p-2 rounded-lg border border-brand-200/40 text-slate-500"
+                  title="Back to conversations"
+                >
+                  <ArrowLeft size={16} />
+                </button>
+                <div className="min-w-0">
+                  <h2 className="font-bold text-brand-500 tracking-tight truncate">{selectedConversation.counterpart_name}</h2>
+                  <p className="text-xs text-slate-500 uppercase tracking-wider truncate">
+                    {selectedConversation.booking_id
+                      ? `Booking: #${selectedConversation.booking_id.slice(0, 8)}`
+                      : 'General conversation'}
+                  </p>
+                </div>
               </div>
               {selectedConversation.unread_count > 0 ? (
                 <Button size="sm" variant="outline" onClick={() => void markConversationRead(selectedConversation.id)}>
