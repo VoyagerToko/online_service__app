@@ -352,3 +352,6 @@ Quick production checklist:
 
 - Upload files are served from `/uploads` by the backend.
 - Current startup path can auto-create tables via `AUTO_CREATE_TABLES`, which is useful for early-stage deployments.
+
+# link to project
+https://servify-frontend.onrender.com
